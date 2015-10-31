@@ -1,0 +1,29 @@
+<html>
+  <head>
+    <script src="./lib/angular.min.js"></script>
+    <script src="./elbaBridge.js"></script>
+  </head>
+  <body ng-app="elbaBridge" ng-controller="elbaBridgeCtrl">
+    <p ng-bind="message"></p>
+    
+    <form name="selection" >
+  <label for="startDateInput">Da:</label>
+  <input type="datetime-local" id="startDateInput" name="startDateInput" ng-model="startDate"
+      placeholder="yyyy-MM-ddTHH:mm:ss" min="2015-10-15T00:00:00" required />
+  <label for="endDateInput">A:</label>
+  <input type="datetime-local" id="endDateInput" name="endDateInput" ng-model="endDate"
+      placeholder="yyyy-MM-ddTHH:mm:ss" min="2015-10-15T00:00:00" required />
+  
+  <button ng-click="search()">Search</button>
+   </form>
+    
+    <table>
+  <tr ng-repeat="ferry in ebData.answer">
+    <td>{{ ferry.ferry }}</td>
+    <td>{{ ferry.startTime |  date : 'dd/MM/yyyy HH:mm:ss' }}</td>
+    <td>{{ ferry.endTime | date : 'HH:mm:ss' }}</td>
+  </tr>
+</table>    
+    
+  </body>
+</html>
