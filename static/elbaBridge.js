@@ -6,7 +6,8 @@ app.controller('elbaBridgeCtrl', function($scope, $http, $filter) {
     
     $scope.startDate = new Date() 
     $scope.endDate = new Date(new Date().getTime() + 60 * 60 * 24 * 1000);
-    $scope.routes = ['Tutte','Piombino-Portoferraio','Portoferraio-Piombino','Firenze']
+    $scope.routes = ['Tutte','Piombino-Portoferraio','Portoferraio-Piombino','Piombino-Rio Marina'
+                     ,'Rio Marina-Piombino','Piombino-Cavo','Cavo-Piombino','Portoferraio-Cavo','Cavo-Portoferraio']
     $scope.route = 'Tutte'
 
     $scope.routeselected = function (routeSelected) {
@@ -27,7 +28,7 @@ app.controller('elbaBridgeCtrl', function($scope, $http, $filter) {
         $http({method: 'GET',
             url: fullUrl
             }).then(function successCallback(response) {
-                $scope.message = fullUrl + " --- "+ response.data.status +" " + response.data.request.result ;
+                $scope.message = response.data.status +" " + response.data.answer.length ;
                 $scope.ebData = response.data
             }, function errorCallback(response) {
                 $scope.message = "Error!";

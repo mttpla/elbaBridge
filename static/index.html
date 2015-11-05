@@ -1,7 +1,8 @@
 <html>
   <head>
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
-   
+    <link href="./elbaBridge.css">
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.7/angular.js"></script>
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.1/angular.min.js.map"></script>
     -->
@@ -11,9 +12,10 @@
     
     
   </head>
+  
+  
   <body ng-app="elbaBridge" ng-controller="elbaBridgeCtrl">
     
-    <p ng-bind="message"></p>
     
         <div class="col-md-6">
             <label for="startDateInput">Da:</label>
@@ -55,12 +57,14 @@
         <button type="button" class="btn btn-default btn-sm" ng-click="search()">Trova</button>
   
     
+    <p ng-bind="message"></p>
+    
     <table>
-    <tr ng-repeat="ferry in ebData.answer">
+    <tr ng-repeat="ferry in ebData.answer" class="{{ferry.company}}">
      <td>{{ ferry.company}}</td>
      <td>{{ ferry.route}}</td>
-     <td>{{ ferry.startTime |  date : 'dd/MM/yyyy HH:mm:ss' }}</td>
-     <td>{{ ferry.endTime | date : 'HH:mm:ss' }}</td>
+     <td>{{ ferry.startTime |  date : 'dd/MM/yyyy HH:mm' }}</td>
+     <td>{{ ferry.endTime | date : 'HH:mm' }}</td>
     </tr>
     </table>    
     

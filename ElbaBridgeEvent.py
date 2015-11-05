@@ -59,10 +59,10 @@ class ElbaBridgeEvent():
 	    self.unixtime = time.mktime(datetime.strptime(startTime[:-6],self.timeFormat).timetuple())
 	    if(len(summary.split(" ")) > 1):
 	        self.company = summary.split(" ")[0]
-	        self.route = summary.split(" ")[1]
+	        self.route = " ".join(summary.split(" ")[1:])
 	    else:
 	        self.company = summary
-	        self.route = ""
+	        self.route = summary
 	
 	def toDict(self):
 	    info = {}
