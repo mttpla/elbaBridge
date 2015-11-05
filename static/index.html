@@ -1,29 +1,68 @@
 <html>
   <head>
-    <script src="./lib/angular.min.js"></script>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+   
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.7/angular.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.1/angular.min.js.map"></script>
+    -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.14.3/ui-bootstrap-tpls.min.js"></script>
+   
     <script src="./elbaBridge.js"></script>
+    
+    
   </head>
   <body ng-app="elbaBridge" ng-controller="elbaBridgeCtrl">
+    
     <p ng-bind="message"></p>
     
-    <form name="selection" >
-  <label for="startDateInput">Da:</label>
-  <input type="datetime-local" id="startDateInput" name="startDateInput" ng-model="startDate"
-      placeholder="yyyy-MM-ddTHH:mm:ss" min="2015-10-15T00:00:00" required />
-  <label for="endDateInput">A:</label>
-  <input type="datetime-local" id="endDateInput" name="endDateInput" ng-model="endDate"
-      placeholder="yyyy-MM-ddTHH:mm:ss" min="2015-10-15T00:00:00" required />
+        <div class="col-md-6">
+            <label for="startDateInput">Da:</label>
+            <p class="input-group">
+              <input type="date" class="form-control" uib-datepicker-popup
+                     ng-model="startDate" ng-required="true" close-text="Close" />
+             
+            <uib-timepicker ng-model="startDate" ng-change="changed()" hour-step="1"
+                 minute-step="1" show-meridian="ismeridian"></uib-timepicker>
+             </p>     
+        </div>
+        
+        
+        <div class="col-md-6">
+            <label for="endDateInput">A:</label>
+            <p class="input-group">
+              <input type="date" class="form-control" uib-datepicker-popup 
+                     ng-model="endDate" ng-required="true" close-text="Close" />
+               <uib-timepicker ng-model="endDate" ng-change="changed()" hour-step="1"
+                 minute-step="1" show-meridian="ismeridian"></uib-timepicker>
+            </p>
+        </div>
+        
+        <label for="endDateInput">Tratta:</label>
+    
+        <div class="btn-group" uib-dropdown is-open="status.isopen">
+        
+      <button id="route" type="button" class="btn btn-primary" uib-dropdown-toggle ng-disabled="disabled">
+        {{route}} <span class="caret"></span>
+      </button>
+     
+      <ul class="uib-dropdown-menu" role="menu" aria-labelledby="single-button">
+        <li ng-repeat="route in routes"><a ng-click="routeselected(route)">{{route}}</a></li>
+        
+      </ul>
+    </div>
+        
+ 
+        <button type="button" class="btn btn-default btn-sm" ng-click="search()">Trova</button>
   
-  <button ng-click="search()">Search</button>
-   </form>
     
     <table>
-  <tr ng-repeat="ferry in ebData.answer">
-    <td>{{ ferry.ferry }}</td>
-    <td>{{ ferry.startTime |  date : 'dd/MM/yyyy HH:mm:ss' }}</td>
-    <td>{{ ferry.endTime | date : 'HH:mm:ss' }}</td>
-  </tr>
-</table>    
+    <tr ng-repeat="ferry in ebData.answer">
+     <td>{{ ferry.company}}</td>
+     <td>{{ ferry.route}}</td>
+     <td>{{ ferry.startTime |  date : 'dd/MM/yyyy HH:mm:ss' }}</td>
+     <td>{{ ferry.endTime | date : 'HH:mm:ss' }}</td>
+    </tr>
+    </table>    
     
   </body>
 </html>

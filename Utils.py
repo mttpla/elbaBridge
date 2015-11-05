@@ -3,8 +3,11 @@ import json, datetime
 import Constants
 from ElbaBridgeEvent import ElbaBridgeEvent
 
+def checkRoute(params ,outputDict):
+    outputDict['route'] =  params.getfirst('route', None)
+
 def checkDate(params, dateString ,outputDict):
-    
+     
     currentDate = params.getfirst(dateString, None)
     outputDict[dateString] = currentDate
     if(currentDate != None):
@@ -23,11 +26,13 @@ def parseParameterInput(params):
     Checking the GET input.
     
     Required startDate and endDate
-    Optional harbour, pedestrian
+    Optional route, pedestrian
     Optional decriptionContain
     '''
     checkDate(params, "endDate", outputDict)
     checkDate(params, "startDate", outputDict)
+    
+    checkRoute(params, outputDict)
     
     '''TODO
     check that startDate is before than endDate. Google will do for us... but a check is required
@@ -36,10 +41,10 @@ def parseParameterInput(params):
     '''TODO
     Add optional value to outputDict
     '''
-    
     return outputDict
 
 def getPrefixData(data, request):
+    data['version'] = Constants.VERSION
     data['msgTime'] = datetime.datetime.now().strftime(Constants.DATETIME_PATTERN)
     data['request'] = request
     

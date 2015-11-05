@@ -39,10 +39,12 @@ def populateElbaBrigdeEventList(startDate, endDate):
         if "recurrence" in item:
             subData = json.load(urllib2.urlopen(buildUrl(min, max, item["id"])))
             for subItem in subData["items"]:
-                events.append(ElbaBridgeEvent(subItem["id"],subItem["summary"],subItem["start"]["dateTime"],subItem["end"]["dateTime"]))
+                events.append(ElbaBridgeEvent(subItem["id"],subItem["summary"],
+                              subItem["start"]["dateTime"],subItem["end"]["dateTime"]))
                 
         else:
-            events.append(ElbaBridgeEvent(item["id"],item["summary"],item["start"]["dateTime"],item["end"]["dateTime"]))
+            events.append(ElbaBridgeEvent(item["id"],item["summary"],item["start"]["dateTime"],
+                          item["end"]["dateTime"]))
     
     events = sorted(events, key= lambda ElbaBridgeEvent: ElbaBridgeEvent.unixtime)
     return events

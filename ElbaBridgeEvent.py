@@ -57,13 +57,21 @@ class ElbaBridgeEvent():
 	    self.endTime = endTime
 	    #self.location = location
 	    self.unixtime = time.mktime(datetime.strptime(startTime[:-6],self.timeFormat).timetuple())
+	    if(len(summary.split(" ")) > 1):
+	        self.company = summary.split(" ")[0]
+	        self.route = summary.split(" ")[1]
+	    else:
+	        self.company = summary
+	        self.route = ""
 	
 	def toDict(self):
 	    info = {}
 	    #info['id'] = self.calId
-	    info['ferry'] = self.summary
+	    
 	    info['startTime'] = self.startTime
 	    info['endTime'] = self.endTime
+	    info['route'] = self.route
+	    info['company'] = self.company
 	    return info
 	
  
