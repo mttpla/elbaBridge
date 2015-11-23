@@ -1,5 +1,7 @@
 #!/usr/bin/python
 
+# Copyright (c) 2015 Matteo Paoli
+
 print "Content-type:application/json"
 print "Access-Control-Allow-Origin: *\r\n\r\n"
 
@@ -18,12 +20,21 @@ if(request['result'] == 'OK'):
     
     eventList = CalendarSearch.populateElbaBrigdeEventList(request['startDate'], request['endDate'])
     
-    #clean the event list, following harbour, pedestrian, descriptionContain
+    #clean the event list
     if(request['route'] != None):
         for event in eventList[:] :
-            if( event.route != request['route']):
+            if( event.route.lower() != request['route'].lower()):
                 eventList.remove(event)
-                
+    
+    if(request['company'] != None):
+        for event in eventList[:] :
+            if( event.company.lower() != request['company'].lower()):
+                eventList.remove(event)           
+    
+    if(request['onlyPedestrians'] == None ):
+        for event in eventList[:]:
+            if (event.onlyPedestrians == True):
+                eventList.remove(event) 
     
    
     print Utils.getAnswerMessage(request,eventList)

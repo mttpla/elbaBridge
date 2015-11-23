@@ -1,10 +1,19 @@
+# Copyright (c) 2015 Matteo Paoli
+
 #Utils methods
 import json, datetime
 import Constants
 from ElbaBridgeEvent import ElbaBridgeEvent
 
+
 def checkRoute(params ,outputDict):
     outputDict['route'] =  params.getfirst('route', None)
+    
+def checkCompany(params ,outputDict):
+    outputDict['company'] =  params.getfirst('company', None)
+    
+def checkOnlyPedestrians(params ,outputDict):
+    outputDict['onlyPedestrians'] =  params.getfirst('onlyPedestrians', None)    
 
 def checkDate(params, dateString ,outputDict):
      
@@ -34,19 +43,17 @@ def parseParameterInput(params):
     
     checkRoute(params, outputDict)
     
-    '''TODO
-    check that startDate is before than endDate. Google will do for us... but a check is required
-    '''
+    checkCompany(params, outputDict)
     
-    '''TODO
-    Add optional value to outputDict
-    '''
+    checkOnlyPedestrians(params, outputDict)
+    
     return outputDict
 
 def getPrefixData(data, request):
     data['version'] = Constants.VERSION
     data['msgTime'] = datetime.datetime.now().strftime(Constants.DATETIME_PATTERN)
     data['request'] = request
+    data['copyright'] = "Copyright 2015 Matteo Paoli"
     
 def getErrorMessage(request, errorText = None):
     data = {}

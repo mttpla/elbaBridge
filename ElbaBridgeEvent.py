@@ -1,3 +1,4 @@
+# Copyright (c) 2015 Matteo Paoli
 #FerryBoat 
 
 #ToDo check ad add again the location value! And description! Check if null
@@ -49,20 +50,29 @@ from datetime import datetime
 class ElbaBridgeEvent():
 	timeFormat = "%Y-%m-%dT%H:%M:%S"
 
-	def __init__(self,calId,summary,startTime,endTime):
+	def __init__(self,calId,summary,startTime,endTime, description = None, location = None):
 	    self.calId = calId
 	    self.summary = summary
-	    #self.description = description
+	    self.description = description
 	    self.startTime = startTime
 	    self.endTime = endTime
-	    #self.location = location
+	    self.location = location
 	    self.unixtime = time.mktime(datetime.strptime(startTime[:-6],self.timeFormat).timetuple())
+	    self.onlyPedestrians = False
 	    if(len(summary.split(" ")) > 1):
-	        self.company = summary.split(" ")[0]
-	        self.route = " ".join(summary.split(" ")[1:])
+	        summarySplitted = summary.split(" ")
+	        self.company = summarySplitted[0]
+	        if(summarySplitted[-1].lower() == "hydrofoil" or summarySplitted[-1].lower() == "aliscafo"):
+	            self.onlyPedestrians = True 
+	            self.route = " ".join(summarySplitted[1:-1])
+	        else:  
+	            self.route = " ".join(summarySplitted[1:]) 
+	        
 	    else:
 	        self.company = summary
 	        self.route = summary
+	         
+	        
 	
 	def toDict(self):
 	    info = {}
@@ -72,6 +82,11 @@ class ElbaBridgeEvent():
 	    info['endTime'] = self.endTime
 	    info['route'] = self.route
 	    info['company'] = self.company
+	    info['onlyPedestrians'] = self.onlyPedestrians
+	    if(self.location != None):
+	        info['location'] = self.location
+	    if(self.description != None):
+	        info['description'] = self.description
 	    return info
 	
  

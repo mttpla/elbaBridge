@@ -1,72 +1,115 @@
+<!-- Copyright (c) 2015 Matteo Paoli -->
+
 <html>
   <head>
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
-    <link href="./elbaBridge.css">
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/0.11.2/angular-material.min.css">
+    <link rel="stylesheet" href="./elbaBridge.css">
     
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.7/angular.js"></script>
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.1/angular.min.js.map"></script>
-    -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.14.3/ui-bootstrap-tpls.min.js"></script>
-   
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular-animate.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular-aria.min.js"></script>
+
+
+    <!-- Angular Material Javascript now available via Google CDN; version 0.11.2 used here -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angular_material/0.11.2/angular-material.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-translate/2.8.1/angular-translate.min.js"></script>
     <script src="./elbaBridge.js"></script>
     
+    <!-- Begin Cookie Consent plugin by Silktide - http://silktide.com/cookieconsent -->
+<script type="text/javascript">
+    window.cookieconsent_options = {"message":"This website uses cookies to ensure you get the best experience on our website","dismiss":"Got it!","learnMore":"More info","link":null,"theme":"dark-top"};
+</script>
+
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/1.0.9/cookieconsent.min.js"></script>
+<!-- End Cookie Consent plugin -->
+
+<title>Elba Bridge</title>
     
   </head>
   
   
   <body ng-app="elbaBridge" ng-controller="elbaBridgeCtrl">
-    
-    
-        <div class="col-md-6">
-            <label for="startDateInput">Da:</label>
-            <p class="input-group">
-              <input type="date" class="form-control" uib-datepicker-popup
-                     ng-model="startDate" ng-required="true" close-text="Close" />
-             
-            <uib-timepicker ng-model="startDate" ng-change="changed()" hour-step="1"
-                 minute-step="1" show-meridian="ismeridian"></uib-timepicker>
-             </p>     
-        </div>
-        
-        
-        <div class="col-md-6">
-            <label for="endDateInput">A:</label>
-            <p class="input-group">
-              <input type="date" class="form-control" uib-datepicker-popup 
-                     ng-model="endDate" ng-required="true" close-text="Close" />
-               <uib-timepicker ng-model="endDate" ng-change="changed()" hour-step="1"
-                 minute-step="1" show-meridian="ismeridian"></uib-timepicker>
-            </p>
-        </div>
-        
-        <label for="endDateInput">Tratta:</label>
-    
-        <div class="btn-group" uib-dropdown is-open="status.isopen">
-        
-      <button id="route" type="button" class="btn btn-primary" uib-dropdown-toggle ng-disabled="disabled">
-        {{route}} <span class="caret"></span>
-      </button>
-     
-      <ul class="uib-dropdown-menu" role="menu" aria-labelledby="single-button">
-        <li ng-repeat="route in routes"><a ng-click="routeselected(route)">{{route}}</a></li>
-        
-      </ul>
-    </div>
-        
- 
-        <button type="button" class="btn btn-default btn-sm" ng-click="search()">Trova</button>
   
     
-    <p ng-bind="message"></p>
+
+    <div class="twoColumnLayout">
     
-    <table>
-    <tr ng-repeat="ferry in ebData.answer" class="{{ferry.company}}">
-     <td>{{ ferry.company}}</td>
-     <td>{{ ferry.route}}</td>
-     <td>{{ ferry.startTime |  date : 'dd/MM/yyyy HH:mm' }}</td>
-     <td>{{ ferry.endTime | date : 'HH:mm' }}</td>
+    <div class="leftColumn">
+
+    <h1 align=center>Elba Bridge</h1>
+    <md-content >
+       
+       <div flex="10" layout layout-align="center center">
+        <span>{{'From' | translate}}</span>
+      </div>
+            
+            <div>
+            <md-datepicker ng-model="startDate" md-placeholder="Enter start date"></md-datepicker>
+            </div>
+            
+           
+      
+      <div flex="10" layout layout-align="center center">
+        <span>{{'Time' | translate}} : &nbsp; </span>
+      
+            <span ng-bind="startTime"></span> <span>:00</span>
+        
+      </div>
+      <md-slider class="md-primary" flex  md-discrete ng-model="startTime" step="1" min="4" max="24" aria-label="rating">
+      </md-slider>
+           
+            
+        <md-input-container style="margin-right: 50px;" >
+        <label>{{'Route' | translate}}</label>
+            <md-select ng-model="route">
+                <md-option ng-repeat="route in routes" value="{{route}}">{{route}}</md-option>
+            </md-select>
+        </md-input-container>
+        
+        <md-input-container style="margin-right: 50px;" >
+        <label>{{'Company' | translate}}</label>
+            <md-select ng-model="company">
+                <md-option ng-repeat="company in companies" value="{{company}}">{{company}}</md-option>
+            </md-select>
+        </md-input-container>
+        
+        <md-checkbox class="md-primary" ng-model="onlyPedestrians" aria-label="onlyPedestrians">
+          {{'Only pedestrians' | translate}}
+        </md-checkbox>
+        
+        <md-button class="md-raised md-primary" ng-click="search()">{{'Search' | translate}}</md-button>
+    
+    </md-content>
+    
+    </div>
+ 
+ <div class="rightColumn">
+
+    <div class="message" ng-bind="message"></div> 
+    
+    <table class="main" ng-hide="noResult">
+    <tr class="main"><th class="main">{{'Company' | translate}}</th>
+                     <th class="main">{{'Route' | translate}}</th>
+                     <th class="main">{{'Departure time' | translate}}</th>
+                     <th class="main">{{'Arrival time' | translate}}</th>
+                     
+    </tr>
+    <tr ng-repeat="ferry in ebData.answer" class="{{ferry.company}} main">
+     <td class="{{ferry.company}} main" ></td>
+     <td class="main">{{ ferry.route}}</td>
+     <td class="main">{{ ferry.startTime |  date : 'dd/MM/yyyy HH:mm' }}</td>
+     <td class="main">{{ ferry.endTime | date : 'HH:mm' }}</td>
     </tr>
     </table>    
     
-  </body>
+    </div>
+    </div>
+ 
+ 
+ 
+ <div class="footer">Copyright 2015 Matteo Paoli - <a href="www.matteopaoli.it">www.matteopaoli.it</a></div>
+ 
+ <!-- <div class="message" ng-bind="debugMessage"></div> -->
+ 
+   </body>
 </html>

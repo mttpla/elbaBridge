@@ -10,3 +10,104 @@ https://secure.traghettitalia.it/traghetti/images/loghi_compagnie_result/2.gif t
 https://secure.traghettitalia.it/traghetti/images/loghi_compagnie_result/3.gif blu-navy
 https://secure.traghettitalia.it/traghetti/images/loghi_compagnie_result/4.gif elba ferries
 */
+
+div.companyLink {
+    display : inline;
+    text-align: center;
+}
+
+div.companyLinkLine {
+    text-align: center;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+div.message {
+    text-align: center;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+div.footer{
+    text-align: center;
+    margin-top: 30px;
+    margin-bottom: 30px;
+   
+}
+
+.Toremar{
+    background: url("/elbaBridge/static/img/toremarLogo.gif") no-repeat;
+    background-size : contain;
+    background-position: center center;
+}
+
+tr.Toremar{
+    background: #F5A9A9;
+
+}
+
+.Moby{
+    background: url("/elbaBridge/static/img/mobyLogo.gif") no-repeat;
+    background-size : contain;
+    background-position: center center;
+}
+
+tr.Moby{
+    background: #A9E2F3;
+    
+}
+
+.BluNavy{
+    background: url("/elbaBridge/static/img/blunavyLogo.gif") no-repeat;
+    background-size : contain;
+    background-position: center center;
+}
+
+tr.BluNavy{
+    background: #33CCFF;
+    
+}
+
+.ElbaFerries{
+    background: url("/elbaBridge/static/img/elbaferriesLogo.gif") no-repeat;
+    background-size : contain;
+    background-position: center center;
+}
+
+tr.ElbaFerries{
+    background: #FFFF99;
+    
+}
+
+table.main {
+    width : 95%;
+    text-align: center;
+
+    
+}
+
+.twoColumnLayout {
+   height: auto;
+   overflow: hidden;
+}
+
+.leftColumn {
+    width: 240px;
+    float: left;
+    margin-left: 20px;
+    margin-right: 20px;
+    /* background: #aafed6; */
+}
+
+.rightColumn {
+    float: none; /* not needed, just for clarification */
+    /* background: #e8f6fe; */
+    /* the next props are meant to keep this block independent from the other floated one */
+    width: auto;
+    overflow: hidden;
+    
+}
+
+h1 {
+    color: blue;
+}

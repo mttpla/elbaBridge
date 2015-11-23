@@ -1,3 +1,5 @@
+# Copyright (c) 2015 Matteo Paoli
+
 #quering to google Calendar
 import urllib2, sys, json, time
 from datetime import datetime
@@ -17,15 +19,23 @@ def buildUrl(min, max, eventID = None):
 
 def getGoogleDate(datetime):
     #starting pattern "%Y%m%d%H%M%S"
-    #required end pattern T00%3A00%3A00%2B02%3A00
+    #required end pattern T00%3A00%3A00%2B01%3A00
+    #timezone GMT +1 ... or +2 question of Daylight savings time
     if(len(datetime) == 14):
         #2015-10-10T10:00:00+02:00
         date = datetime[0:4]+"-"+datetime[4:6]+"-"+datetime[6:8]
-        time = "T"+datetime[8:10]+"%3A"+datetime[10:12]+"%3A"+datetime[12:14]+"%2B02%3A00"
+        time = "T"+datetime[8:10]+"%3A"+datetime[10:12]+"%3A"+datetime[12:14]+"%2B01%3A00"
         return date+time
     return None
     
-    
+def createEvent(myItem):
+    event = ElbaBridgeEvent(myItem["id"],myItem["summary"],
+                              myItem["start"]["dateTime"],myItem["end"]["dateTime"])
+    if('description' in myItem):
+            event.description = myItem['description']
+    if('location' in myItem):
+            event.location = myItem['location'] 
+    return event
 
 def populateElbaBrigdeEventList(startDate, endDate):
     
@@ -39,12 +49,11 @@ def populateElbaBrigdeEventList(startDate, endDate):
         if "recurrence" in item:
             subData = json.load(urllib2.urlopen(buildUrl(min, max, item["id"])))
             for subItem in subData["items"]:
-                events.append(ElbaBridgeEvent(subItem["id"],subItem["summary"],
-                              subItem["start"]["dateTime"],subItem["end"]["dateTime"]))
-                
+                if('summary' in subItem):
+                    events.append(createEvent(subItem))
         else:
-            events.append(ElbaBridgeEvent(item["id"],item["summary"],item["start"]["dateTime"],
-                          item["end"]["dateTime"]))
+            if('summary' in item):
+                events.append(createEvent(item))
     
     events = sorted(events, key= lambda ElbaBridgeEvent: ElbaBridgeEvent.unixtime)
     return events
