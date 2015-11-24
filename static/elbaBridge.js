@@ -15,7 +15,9 @@ app.config(['$translateProvider', function ($translateProvider) {
     'Arrival time': 'Arrival time',
     'Time': 'Time',
     'Only pedestrians': 'Only Pedestrions',
-    'results found': 'results found'
+    'results found': 'results found',
+    'disclaimer' : 'TODO',
+    'disclaimer2' : "TODO2"
   });
  
   $translateProvider.translations('it', {
@@ -29,7 +31,9 @@ app.config(['$translateProvider', function ($translateProvider) {
     'Arrival time': 'Orario di arrivo',
     'Time': "Orario",
     'Only pedestrians': 'Solo passeggeri, no auto',
-    'results found': 'risultati trovati'
+    'results found': 'risultati trovati',
+    'disclaimer': 'I marchi, loghi, denominazioni di aziende menzionati all’interno di questo sito restano comunque di proprietà dei rispettivi titolari.',
+    'disclaimer2': 'Inoltre i listini prezzi, orari, date o altro materiale informativo pubblicato su questo sito è suscettibile a variazioni. Siete quindi invitati a chiedere conferma alle strutture interessate.'
   });
  
   $translateProvider.preferredLanguage(
@@ -41,6 +45,7 @@ app.controller('elbaBridgeCtrl', function($scope, $http, $filter) {
     
     $scope.startDate = new Date() 
     $scope.startTime = $scope.startDate.getHours();
+    $scope.currentYear = $scope.startDate.getFullYear();
     $scope.noResult = true
     
     
@@ -73,7 +78,7 @@ app.controller('elbaBridgeCtrl', function($scope, $http, $filter) {
         endDate = new Date($scope.startDate.getTime() + 60 * 60 * 24 * 1000); //one days more
         ebEndDate = $filter('date')(endDate, 'yyyyMMdd') + ebStartTime
         
-        fullUrl = 'http://umkk91e9b477.mttpla.koding.io/elbaBridge/elbaBridge.py?startDate='+ebStartDate+'&endDate='+ebEndDate;
+        fullUrl = '/elbaBridge/elbaBridge.py?startDate='+ebStartDate+'&endDate='+ebEndDate;
         if($scope.route !== '--'){
             fullUrl += '&route='+$scope.route;
         }
@@ -93,11 +98,11 @@ app.controller('elbaBridgeCtrl', function($scope, $http, $filter) {
                     $scope.noResult  = false;    
                 }
                 
-                $scope.message = response.data.status +"! " + response.data.answer.length +" "
+                $scope.message =  response.data.answer.length +" "
                                  +  $filter('translate')('results found');
-                $scope.debugMessage = fullUrl;
+                $scope.debugMessage = response.data.status +"! url: " +fullUrl;
                 
-                $scope.ebData = response.data
+                $scope.ebData = response.data.answer
             }, function errorCallback(response) {
                 $scope.message = "Error! Requested url: " + fullUrl;
             });

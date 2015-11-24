@@ -8,17 +8,29 @@ print "Access-Control-Allow-Origin: *\r\n\r\n"
 import cgi, cgitb
 import Utils, Constants,CalendarSearch
 from ElbaBridgeEvent import ElbaBridgeEvent
+import time
+from datetime import datetime
 
 #log, in production switch to: cgitb.enable(display=0, logdir="/path/to/logdir")
 cgitb.enable()
 
 request = Utils.parseParameterInput(cgi.FieldStorage())
 
+            
+
 if(request['result'] == 'OK'):
     #user request is ok. Run!
     eventList = []
+    startRequestUnixTime = time.mktime(datetime.strptime(request['startDate'],"%Y%m%d%H%M%S").timetuple())
     
     eventList = CalendarSearch.populateElbaBrigdeEventList(request['startDate'], request['endDate'])
+    
+    #clean startDate > of event startDate
+    for event in eventList[:] :
+        if(event.unixtime < startRequestUnixTime):
+            eventList.remove(event)
+        else:
+            break #all other event are OK.
     
     #clean the event list
     if(request['route'] != None):

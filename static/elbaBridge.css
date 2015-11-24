@@ -35,6 +35,14 @@ div.footer{
    
 }
 
+div.disclaimer{
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    font-size: small;
+    
+}
+
 .Toremar{
     background: url("/elbaBridge/static/img/toremarLogo.gif") no-repeat;
     background-size : contain;
