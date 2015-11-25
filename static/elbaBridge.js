@@ -1,6 +1,12 @@
 // Copyright (c) 2015 Matteo Paoli
 
-var app = angular.module('elbaBridge', ['pascalprecht.translate','ngMaterial']);
+var app = angular.module('elbaBridge', ['pascalprecht.translate','ngMaterial'])
+ .filter('addingSpaces', function() {
+  return function(input) {
+    return input.replace("-", " - ");
+  };
+})
+;
 
 
 app.config(['$translateProvider', function ($translateProvider) {
@@ -17,7 +23,9 @@ app.config(['$translateProvider', function ($translateProvider) {
     'Only pedestrians': 'Only Pedestrions',
     'results found': 'results found',
     'disclaimer' : 'TODO',
-    'disclaimer2' : "TODO2"
+    'disclaimer2' : "TODO2",
+    'Departure day' : 'Departure day',
+    'descriptionText' : 'Ferryboat time schedule to and from Elba Island'
   });
  
   $translateProvider.translations('it', {
@@ -33,7 +41,9 @@ app.config(['$translateProvider', function ($translateProvider) {
     'Only pedestrians': 'Solo passeggeri, no auto',
     'results found': 'risultati trovati',
     'disclaimer': 'I marchi, loghi, denominazioni di aziende menzionati all’interno di questo sito restano comunque di proprietà dei rispettivi titolari.',
-    'disclaimer2': 'Inoltre i listini prezzi, orari, date o altro materiale informativo pubblicato su questo sito è suscettibile a variazioni. Siete quindi invitati a chiedere conferma alle strutture interessate.'
+    'disclaimer2' : 'Inoltre i listini prezzi, orari, date o altro materiale informativo pubblicato su questo sito è suscettibile a variazioni. Siete quindi invitati a chiedere conferma alle strutture interessate.',
+    'Departure day' : 'Giorno',
+    'descriptionText' : 'Orario delle partenze da e per l\'Isola d\'Elba.'
   });
  
   $translateProvider.preferredLanguage(
@@ -42,6 +52,8 @@ app.config(['$translateProvider', function ($translateProvider) {
 }]);
 
 app.controller('elbaBridgeCtrl', function($scope, $http, $filter) {
+    
+   
     
     $scope.startDate = new Date() 
     $scope.startTime = $scope.startDate.getHours();
