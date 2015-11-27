@@ -1,7 +1,7 @@
 # Copyright (c) 2015 Matteo Paoli
 
 #Utils methods
-import json, datetime
+import json, datetime, time
 import Constants
 from ElbaBridgeEvent import ElbaBridgeEvent
 
@@ -60,13 +60,16 @@ def getErrorMessage(request, errorText = None):
     getPrefixData(data, request)
     data['status'] = "error"
     if(errorText != None):
-        data['errorText'] = str(errorText)
+        data['errorText'] = str(errorText)   
     return json.dumps(data)
+
     
-def getAnswerMessage(request,ferryList):
+def getAnswerMessage(request,ferryList, processUnixTime):
     data = {}
     data['status'] = "ok"
     getPrefixData(data, request)
+    processUnixTime.append([time.time(),"end"])
+    data['processTime'] = processUnixTime
     ferries = []
     for ferry in ferryList:
         ferries.append(ferry.toDict())

@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/0.11.2/angular-material.min.css">
     <link rel="stylesheet" href="./elbaBridge.css">
+   
     
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular-animate.min.js"></script>
@@ -50,9 +51,21 @@
     <div class="twoColumnLayout">
     
     <div class="leftColumn">
-
-    <h1 align=center>Elba Bridge</h1>
+    
+     
     <md-content >
+    
+    <md-button class="md-icon-button" ng-click="changeLanguage('en')" >
+        <img src="img/flag-en.gif" alt="US">
+    </md-button>
+    <md-button class="md-icon-button" ng-click="changeLanguage('it')" >
+        <img src="img/flag-it.gif" alt="IT">
+    </md-button>
+   
+    
+  
+   <h1 align=center>Elba Bridge</h1>
+   
        
        <div flex="10" layout layout-align="center center">
         <span>{{'From' | translate}}</span>
@@ -96,7 +109,7 @@
     
     </md-content>
     
-     <div class="descriptionText" >{{'descriptionText' | translate}}</div>
+     <div class="blueText" >{{'descriptionText' | translate}}</div>
      
      <div id="map"></div>
      
@@ -119,21 +132,26 @@
     <div class="message" ng-bind="message"></div> 
     
     <table class="main" ng-hide="noResult">
-    <tr class="main"><th class="main">{{'Company' | translate}}</th>
+    <tr class="main"><th class="main companyColumn">{{'Company' | translate}}</th>
                      <th class="main">{{'Route' | translate}}</th>
                      <th class="main">{{'Departure day' | translate}}</th>
                      <th class="main">{{'Departure time' | translate}}</th>
                      <th class="main">{{'Arrival time' | translate}}</th>
-                     
+                     <th class="main">{{'Link' | translate}}</th>
     </tr>
-    <tr ng-repeat="ferry in ebData" class="{{ferry.company}} main">
-     <td class="{{ferry.company}} main" ></td>
+    <tr ng-repeat="ferry in ebData" class="{{ferry.company}} companyColumn main">
+     <td class="{{ferry.company}} companyColumn main" ></td>
      <td class="main">{{ ferry.route | addingSpaces }}</td>
      <td class="main">{{ ferry.startTime | date : 'dd/MM/yyyy' }}</td>
      <td class="main">{{ ferry.startTime | date : 'HH:mm' }}</td>
      <td class="main">{{ ferry.endTime | date : 'HH:mm' }}</td>
+     <td class="main"><a target=_blank href="{{companyLinks[ferry.company]}}">Link</a></td>
     </tr>
-    </table>    
+    </table> 
+    
+    <div ng-show="noResult">
+        <h4 class="blueText">{{'Sorry, no noResult' | translate}}</h4>
+    </div>
     
     <div class="adBanner">
  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
@@ -158,7 +176,7 @@
  <div class="disclaimer">{{'disclaimer' | translate }} </div>
   <div class="disclaimer">{{'disclaimer2' | translate }} </div>
  
- <!-- <div class="message" ng-bind="debugMessage"></div> -->  
+  <div class="debugMessage" ng-bind="debugMessage"></div> 
    
    
    

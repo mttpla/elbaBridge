@@ -11,16 +11,20 @@ https://secure.traghettitalia.it/traghetti/images/loghi_compagnie_result/3.gif b
 https://secure.traghettitalia.it/traghetti/images/loghi_compagnie_result/4.gif elba ferries
 */
 
+div.debugMessage{
+    color : white;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    font-size: xx-small;
+}
+
+
 div.companyLink {
     display : inline;
     text-align: center;
 }
 
-div.companyLinkLine {
-    text-align: center;
-    margin-top: 30px;
-    margin-bottom: 30px;
-}
+
 
 div.message {
     text-align: center;
@@ -43,7 +47,7 @@ div.disclaimer{
     
 }
 
-div.descriptionText{
+.blueText{
     margin : 10px;
     color : blue;
     text-align : center;
@@ -54,6 +58,12 @@ div.adBanner{
     width : 95%;
     margin-left:auto; 
     margin-right:auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.companyColumn{
+    width: 110px;
 }
 
 .Toremar{
@@ -64,13 +74,16 @@ div.adBanner{
 
 tr.Toremar{
     background: #F5A9A9;
+    
 
 }
+
 
 .Moby{
     background: url("/elbaBridge/static/img/mobyLogo.gif") no-repeat;
     background-size : contain;
     background-position: center center;
+    
 }
 
 tr.Moby{

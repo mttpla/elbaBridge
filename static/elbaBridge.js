@@ -22,10 +22,13 @@ app.config(['$translateProvider', function ($translateProvider) {
     'Time': 'Time',
     'Only pedestrians': 'Only Pedestrions',
     'results found': 'results found',
-    'disclaimer' : 'TODO',
-    'disclaimer2' : "TODO2",
+    'disclaimer' : 'All trademarks or logos show in this web site are of their owner.',
+    'disclaimer2' : "The infos, time schedules and prices can change wihtout any notice. Please, check on the offical web site.",
     'Departure day' : 'Departure day',
-    'descriptionText' : 'Ferryboat time schedule to and from Elba Island'
+    'descriptionText' : 'Ferryboat time schedule to and from Elba Island',
+    'Sorry, no noResult': 'No result available, try to change your filter on the left tab.',
+    'BUTTON_LANG_EN': 'english',
+    'BUTTON_LANG_IT': 'italian'
   });
  
   $translateProvider.translations('it', {
@@ -34,7 +37,7 @@ app.config(['$translateProvider', function ($translateProvider) {
     'Route': 'Tratta',
     'Search': 'Trova!',
     'Loading...': 'Ricerca...',
-    'Company': "Compagnia di navigazione",
+    'Company': "Compagnia",
     'Departure time': 'Orario di partenza',
     'Arrival time': 'Orario di arrivo',
     'Time': "Orario",
@@ -43,17 +46,19 @@ app.config(['$translateProvider', function ($translateProvider) {
     'disclaimer': 'I marchi, loghi, denominazioni di aziende menzionati all’interno di questo sito restano comunque di proprietà dei rispettivi titolari.',
     'disclaimer2' : 'Inoltre i listini prezzi, orari, date o altro materiale informativo pubblicato su questo sito è suscettibile a variazioni. Siete quindi invitati a chiedere conferma alle strutture interessate.',
     'Departure day' : 'Giorno',
-    'descriptionText' : 'Orario delle partenze da e per l\'Isola d\'Elba.'
+    'descriptionText' : 'Orario delle partenze da e per l\'Isola d\'Elba.',
+    'Sorry, no noResult': 'Nessun risultato disponibile, si consiglia di provare a cambiare i filtri di ricerca.',
+    'BUTTON_LANG_EN': 'english',
+    'BUTTON_LANG_IT': 'italian'
   });
  
   $translateProvider.preferredLanguage(
       (window.navigator.userLanguage || window.navigator.language).substring(0, 2));
+
   $translateProvider.useSanitizeValueStrategy('escape');      
 }]);
 
-app.controller('elbaBridgeCtrl', function($scope, $http, $filter) {
-    
-   
+app.controller('elbaBridgeCtrl', function($scope, $http, $filter, $translate) {
     
     $scope.startDate = new Date() 
     $scope.startTime = $scope.startDate.getHours();
@@ -68,13 +73,23 @@ app.controller('elbaBridgeCtrl', function($scope, $http, $filter) {
         $scope.route = routeSelected;
     }
     
+    $scope.companyLinks = {'BluNavy':"http://www.blunavytraghetti.com/", 'ElbaFerries':"http://www.elba-ferries.it/", 
+         'Moby':"http://www.moby.it", 'Toremar': "http://www.toremar.it"}
+    
     $scope.companies = ['--','BluNavy','ElbaFerries','Moby','Toremar']
+   
     $scope.company = '--'
     $scope.companyselected = function (companySelected) {
         $scope.company = companySelected;
     }
-
+    
     $scope.onlyPedestrian = false;
+    
+    
+    $scope.changeLanguage = function (key) {
+          $translate.use(key);
+        };
+    
 
     $scope.search = function() {
         //clean previosu data Search
@@ -112,7 +127,7 @@ app.controller('elbaBridgeCtrl', function($scope, $http, $filter) {
                 
                 $scope.message =  response.data.answer.length +" "
                                  +  $filter('translate')('results found');
-                $scope.debugMessage = response.data.status +"! url: " +fullUrl;
+                //$scope.debugMessage = response.data.status +"! url: " + fullUrl  ;
                 
                 $scope.ebData = response.data.answer
             }, function errorCallback(response) {
