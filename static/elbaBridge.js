@@ -65,7 +65,6 @@ app.controller('elbaBridgeCtrl', function($scope, $http, $filter, $translate) {
     $scope.currentYear = $scope.startDate.getFullYear();
     $scope.noResult = true
     
-    
     $scope.routes = ['--','Piombino-Portoferraio','Portoferraio-Piombino','Piombino-Rio Marina'
                      ,'Rio Marina-Piombino','Piombino-Cavo','Cavo-Piombino','Portoferraio-Cavo','Cavo-Portoferraio']
     $scope.route = '--'
@@ -96,6 +95,7 @@ app.controller('elbaBridgeCtrl', function($scope, $http, $filter, $translate) {
         $scope.ebData = []
         //loading message
         $scope.message = $filter('translate')('Loading...')
+        $scope.noResultMessage = '--'
         $scope.noResult = true;
         
         //add one hour at startDate, otherwise give me the running event.
@@ -127,6 +127,7 @@ app.controller('elbaBridgeCtrl', function($scope, $http, $filter, $translate) {
                 
                 $scope.message =  response.data.answer.length +" "
                                  +  $filter('translate')('results found');
+                $scope.noResultMessage = $filter('translate')('Sorry, no noResult')                 
                 //$scope.debugMessage = response.data.status +"! url: " + fullUrl  ;
                 
                 $scope.ebData = response.data.answer
