@@ -95,7 +95,7 @@ app.controller('elbaBridgeCtrl', function($scope, $http, $filter, $translate) {
         $scope.ebData = []
         //loading message
         $scope.message = $filter('translate')('Loading...')
-        $scope.noResultMessage = '--'
+        $scope.noResultMessage = $filter('translate')('Loading...')
         $scope.noResult = true;
         
         //add one hour at startDate, otherwise give me the running event.
