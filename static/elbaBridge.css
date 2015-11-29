@@ -58,6 +58,12 @@ div.disclaimer{
     
 }
 
+.noResultText{
+    margin : 40px;
+    color : blue;
+    text-align : center;
+}
+
 .blueText{
     margin : 10px;
     color : blue;
