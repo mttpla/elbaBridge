@@ -26,7 +26,7 @@ app.config(['$translateProvider', function ($translateProvider) {
     'disclaimer2' : "The infos, time schedules and prices can change wihtout any notice. Please, check on the offical web site.",
     'Departure day' : 'Departure day',
     'descriptionText' : 'Ferryboat time schedule to and from Elba Island',
-    'Sorry, no noResult': 'No result available, try to change your filter on the left tab.',
+    'Sorry, no result': 'No result available, try to change your filter on the left tab.',
     'BUTTON_LANG_EN': 'english',
     'BUTTON_LANG_IT': 'italian'
   });
@@ -47,7 +47,7 @@ app.config(['$translateProvider', function ($translateProvider) {
     'disclaimer2' : 'Inoltre i listini prezzi, orari, date o altro materiale informativo pubblicato su questo sito è suscettibile a variazioni. Siete quindi invitati a chiedere conferma alle strutture interessate.',
     'Departure day' : 'Giorno',
     'descriptionText' : 'Orario delle partenze da e per l\'Isola d\'Elba.',
-    'Sorry, no noResult': 'Nessun risultato disponibile, si consiglia di provare a cambiare i filtri di ricerca.',
+    'Sorry, no result': 'Nessun risultato disponibile, si consiglia di provare a cambiare i filtri di ricerca.',
     'BUTTON_LANG_EN': 'english',
     'BUTTON_LANG_IT': 'italian'
   });
@@ -63,7 +63,6 @@ app.controller('elbaBridgeCtrl', function($scope, $http, $filter, $translate) {
     $scope.startDate = new Date() 
     $scope.startTime = $scope.startDate.getHours();
     $scope.currentYear = $scope.startDate.getFullYear();
-    $scope.noResult = true
     
     $scope.routes = ['--','Piombino-Portoferraio','Portoferraio-Piombino','Piombino-Rio Marina'
                      ,'Rio Marina-Piombino','Piombino-Cavo','Cavo-Piombino','Portoferraio-Cavo','Cavo-Portoferraio']
@@ -87,6 +86,7 @@ app.controller('elbaBridgeCtrl', function($scope, $http, $filter, $translate) {
     
     $scope.changeLanguage = function (key) {
           $translate.use(key);
+                       
         };
     
 
@@ -94,9 +94,8 @@ app.controller('elbaBridgeCtrl', function($scope, $http, $filter, $translate) {
         //clean previosu data Search
         $scope.ebData = []
         //loading message
-        $scope.message = $filter('translate')('Loading...')
-        $scope.noResultMessage = $filter('translate')('Loading...')
-        $scope.noResult = true;
+        $scope.loadingResult = true
+     
         
         //add one hour at startDate, otherwise give me the running event.
         //ebStartDate = $filter('date')(new Date($scope.startDate.getTime()+60*60*1000), 'yyyyMMddHHmmss')
@@ -121,16 +120,18 @@ app.controller('elbaBridgeCtrl', function($scope, $http, $filter, $translate) {
         $http({method: 'GET',
             url: fullUrl
             }).then(function successCallback(response) {
+                $scope.loadingResult = false
                 if(parseInt(response.data.answer.length) > 0 ){
                     $scope.noResult  = false;    
+                    $scope.resultLen =  response.data.answer.length               
+                    //$scope.debugMessage = response.data.status +"! url: " + fullUrl  ;
+                    $scope.ebData = response.data.answer
+                }else{
+                    $scope.resultLen = 0
+                    $scope.noResult = true;
                 }
                 
-                $scope.message =  response.data.answer.length +" "
-                                 +  $filter('translate')('results found');
-                $scope.noResultMessage = $filter('translate')('Sorry, no noResult')                 
-                //$scope.debugMessage = response.data.status +"! url: " + fullUrl  ;
                 
-                $scope.ebData = response.data.answer
             }, function errorCallback(response) {
                 $scope.message = "Error! Requested url: " + fullUrl;
             });

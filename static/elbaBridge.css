@@ -25,11 +25,15 @@ div.companyLink {
 }
 
 
-
-div.message {
+div.message{
     text-align: center;
     margin-top: 30px;
     margin-bottom: 30px;
+    
+}
+div.resultLen {
+    display : inline;
+    
 }
 
 div.footer{
@@ -44,6 +48,13 @@ div.disclaimer{
     margin-top: 5px;
     margin-bottom: 5px;
     font-size: small;
+    
+}
+
+.loading{
+    margin : 60px;
+    color : blue;
+    text-align : center;
     
 }
 
@@ -153,3 +164,9 @@ h1 {
         height: 240px;
         background-color: #CCC;
       }
+      
+.paypalButton{
+    text-align : center;
+    margin-top : 30px ;
+    margin-bottom : 10px;
+}      
