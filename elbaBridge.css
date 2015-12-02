@@ -84,7 +84,7 @@ div.adBanner{
 }
 
 .Toremar{
-    background: url("/elbaBridge/static/img/toremarLogo.gif") no-repeat;
+    background: url("./img/toremarLogo.gif") no-repeat;
     background-size : contain;
     background-position: center center;
 }
@@ -97,7 +97,7 @@ tr.Toremar{
 
 
 .Moby{
-    background: url("/elbaBridge/static/img/mobyLogo.gif") no-repeat;
+    background: url("./img/mobyLogo.gif") no-repeat;
     background-size : contain;
     background-position: center center;
     
@@ -109,7 +109,7 @@ tr.Moby{
 }
 
 .BluNavy{
-    background: url("/elbaBridge/static/img/blunavyLogo.gif") no-repeat;
+    background: url("./img/blunavyLogo.gif") no-repeat;
     background-size : contain;
     background-position: center center;
 }
@@ -120,7 +120,7 @@ tr.BluNavy{
 }
 
 .ElbaFerries{
-    background: url("/elbaBridge/static/img/elbaferriesLogo.gif") no-repeat;
+    background: url("./img/elbaferriesLogo.gif") no-repeat;
     background-size : contain;
     background-position: center center;
 }

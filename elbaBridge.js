@@ -104,7 +104,7 @@ app.controller('elbaBridgeCtrl', function($scope, $http, $filter, $translate) {
         endDate = new Date($scope.startDate.getTime() + 60 * 60 * 24 * 1000); //one days more
         ebEndDate = $filter('date')(endDate, 'yyyyMMdd') + ebStartTime
         
-        fullUrl = '/elbaBridge/elbaBridge.py?startDate='+ebStartDate+'&endDate='+ebEndDate;
+        fullUrl = './elbaBridgeServer/elbaBridge?startDate='+ebStartDate+'&endDate='+ebEndDate;
         if($scope.route !== '--'){
             fullUrl += '&route='+$scope.route;
         }
@@ -130,10 +130,9 @@ app.controller('elbaBridgeCtrl', function($scope, $http, $filter, $translate) {
                     $scope.resultLen = 0
                     $scope.noResult = true;
                 }
-                
-                
             }, function errorCallback(response) {
-                $scope.message = "Error! Requested url: " + fullUrl;
+                $scope.loadingResult = false
+                $scope.resultLen = "Error! Requested url: " + fullUrl;
             });
         };
         

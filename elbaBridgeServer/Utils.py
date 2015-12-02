@@ -7,17 +7,17 @@ from ElbaBridgeEvent import ElbaBridgeEvent
 
 
 def checkRoute(params ,outputDict):
-    outputDict['route'] =  params.getfirst('route', None)
+    outputDict['route'] =  params.get('route', None)
     
 def checkCompany(params ,outputDict):
-    outputDict['company'] =  params.getfirst('company', None)
+    outputDict['company'] =  params.get('company', None)
     
 def checkOnlyPedestrians(params ,outputDict):
-    outputDict['onlyPedestrians'] =  params.getfirst('onlyPedestrians', None)    
+    outputDict['onlyPedestrians'] =  params.get('onlyPedestrians', None)    
 
 def checkDate(params, dateString ,outputDict):
      
-    currentDate = params.getfirst(dateString, None)
+    currentDate = params.get(dateString, None)
     outputDict[dateString] = currentDate
     if(currentDate != None):
         try:
@@ -64,12 +64,11 @@ def getErrorMessage(request, errorText = None):
     return json.dumps(data)
 
     
-def getAnswerMessage(request,ferryList, processUnixTime):
+def getAnswerMessage(request,ferryList):
     data = {}
     data['status'] = "ok"
     getPrefixData(data, request)
-    processUnixTime.append([time.time(),"end"])
-    data['processTime'] = processUnixTime
+   
     ferries = []
     for ferry in ferryList:
         ferries.append(ferry.toDict())
