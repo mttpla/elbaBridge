@@ -51,12 +51,15 @@ class elbaBridge:
                 if(request['route'] != None):
                     if( event.route.lower() != request['route'].lower()):
                         eventList.remove(event)
+                        break
                 if(request['company'] != None):
                     if( event.company.lower() != request['company'].lower()):
-                        eventList.remove(event)   
+                        eventList.remove(event)
+                        break
                 if(request['onlyPedestrians'] == None ):
                     if (event.onlyPedestrians == True):
-                        eventList.remove(event) 
+                        eventList.remove(event)
+                        break
             page += Utils.getAnswerMessage(request,eventList)
     
         else:
