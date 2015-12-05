@@ -1,23 +1,27 @@
 # Copyright (c) 2015 Matteo Paoli
 
 #Utils methods
-import json, time
+import json, time, string
 from datetime import datetime
 import Constants
 
+def onlyascii(text):
+    if(text!=None):
+        return text.encode('ascii',errors='ignore')
+    return None
 
 def checkRoute(params ,outputDict):
-    outputDict['route'] =  params.get('route', None)
+    outputDict['route'] =  onlyascii(params.get('route', None))
     
 def checkCompany(params ,outputDict):
-    outputDict['company'] =  params.get('company', None)
+    outputDict['company'] =  onlyascii(params.get('company', None))
     
 def checkOnlyPedestrians(params ,outputDict):
-    outputDict['onlyPedestrians'] =  params.get('onlyPedestrians', None)    
+    outputDict['onlyPedestrians'] =  onlyascii(params.get('onlyPedestrians', None))   
 
 def checkDate(params, dateString ,outputDict):
-    currentDate = params.get(dateString, None)
-    outputDict[dateString] = currentDate
+    currentDate = onlyascii(params.get(dateString, None))
+    outputDict[dateString] = currentDate 
     if(currentDate != None):
         try:
             datetime.strptime(currentDate, Constants.URL_DATETIME_PATTERN)

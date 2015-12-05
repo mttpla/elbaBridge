@@ -11,7 +11,7 @@ var app = angular.module('elbaBridge', ['pascalprecht.translate','ngMaterial'])
 
 app.config(['$translateProvider', function ($translateProvider) {
   $translateProvider.translations('en', {
-    'From': 'From',
+    'From': 'Departure day',
     'To': 'To',
     'Route': 'Route',
     'Search': 'Search!',

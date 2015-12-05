@@ -150,6 +150,7 @@
                      <th class="main">{{'Departure day' | translate}}</th>
                      <th class="main">{{'Departure time' | translate}}</th>
                      <th class="main">{{'Arrival time' | translate}}</th>
+                     <th ng-show="onlyPedestrians" ng-class="{true: 'main onlyPedestriansColumn', false: 'main'}[onlyPedestrians]"></th>
                      <th class="main">{{'Link' | translate}}</th>
     </tr>
     <tr ng-repeat="ferry in ebData" class="{{ferry.company}} companyColumn main">
@@ -158,6 +159,7 @@
      <td class="main">{{ ferry.startTime | date : 'dd/MM/yyyy' }}</td>
      <td class="main">{{ ferry.startTime | date : 'HH:mm' }}</td>
      <td class="main">{{ ferry.endTime | date : 'HH:mm' }}</td>
+     <td ng-show="onlyPedestrians" ng-class="{true: 'main onlyPedestrians', false: 'main'}[ferry.onlyPedestrians]"></td>
      <td class="main"><a target=_blank href="{{companyLinks[ferry.company]}}">Link</a></td>
     </tr>
     </table> 
