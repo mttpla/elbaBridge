@@ -74,7 +74,7 @@ class elbaBridge:
         return page
 
 if __name__ == "__main__":
-    logging.config.fileConfig('./ElbaBridgeServer.cfg')
+    logging.config.fileConfig(os.path.dirname(os.path.realpath(__file__)) + '/ElbaBridgeServer.cfg')
     logging.info("Start ElbaBridgeServer!")
     EventList.populate()
     logging.info("EventList populated, event numbers: " + str(len(EventList.events)))
