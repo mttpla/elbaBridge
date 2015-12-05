@@ -51,8 +51,8 @@ class elbaBridge:
                     continue
                 if(event.unixtime > endRequestUnixTime):
                     #logging.debug("remove Event: " + str(event.route) + " -- " + str(event.startTime))
-                    eventList.remove(event)
-                    continue
+                    del eventList[eventList.index(event):]
+                    break
                 if(request['route'] != None):
                     if( event.route.lower() != request['route'].lower()):
                         eventList.remove(event)
