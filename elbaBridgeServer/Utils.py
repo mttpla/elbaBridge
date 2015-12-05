@@ -1,9 +1,9 @@
 # Copyright (c) 2015 Matteo Paoli
 
 #Utils methods
-import json, datetime, time
+import json, time
+from datetime import datetime
 import Constants
-from ElbaBridgeEvent import ElbaBridgeEvent
 
 
 def checkRoute(params ,outputDict):
@@ -16,12 +16,11 @@ def checkOnlyPedestrians(params ,outputDict):
     outputDict['onlyPedestrians'] =  params.get('onlyPedestrians', None)    
 
 def checkDate(params, dateString ,outputDict):
-     
     currentDate = params.get(dateString, None)
     outputDict[dateString] = currentDate
     if(currentDate != None):
         try:
-            datetime.datetime.strptime(currentDate, Constants.DATETIME_PATTERN)
+            datetime.strptime(currentDate, Constants.URL_DATETIME_PATTERN)
         except ValueError:
             outputDict['result'] = "Error: " + dateString + ' is not a valid date. Pattern required: ' + Constants.DATETIME_PATTERN
     else:
@@ -51,7 +50,7 @@ def parseParameterInput(params):
 
 def getPrefixData(data, request):
     data['version'] = Constants.VERSION
-    data['msgTime'] = datetime.datetime.now().strftime(Constants.DATETIME_PATTERN)
+    data['msgTime'] = datetime.now().strftime(Constants.URL_DATETIME_PATTERN)
     data['request'] = request
     data['copyright'] = "Copyright 2015 Matteo Paoli"
     

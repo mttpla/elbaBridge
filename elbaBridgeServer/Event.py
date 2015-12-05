@@ -45,19 +45,20 @@ Example of google calendar event:
 '''
 import time
 from datetime import datetime
+import Utils
 
 
-class ElbaBridgeEvent():
-	timeFormat = "%Y-%m-%dT%H:%M:%S"
+class Event():
 
 	def __init__(self,calId,summary,startTime,endTime, description = None, location = None):
 	    self.calId = calId
 	    self.summary = summary
 	    self.description = description
-	    self.startTime = startTime
-	    self.endTime = endTime
+	    self.startTime = startTime[:-6]
+	    self.endTime = endTime[:-6]
 	    self.location = location
-	    self.unixtime = time.mktime(datetime.strptime(startTime[:-6],self.timeFormat).timetuple())
+	    #"dateTime": "2015-05-30T14:00:00+02:00"
+	    self.unixtime = time.mktime(datetime.strptime(self.startTime,"%Y-%m-%dT%H:%M:%S").timetuple())
 	    self.onlyPedestrians = False
 	    if(len(summary.split(" ")) > 1):
 	        summarySplitted = summary.split(" ")
