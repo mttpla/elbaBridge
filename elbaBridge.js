@@ -28,7 +28,8 @@ app.config(['$translateProvider', function ($translateProvider) {
     'descriptionText' : 'Ferryboat time schedule to and from Elba Island',
     'Sorry, no result': 'No result available, try to change your filter on the left tab.',
     'BUTTON_LANG_EN': 'english',
-    'BUTTON_LANG_IT': 'italian'
+    'BUTTON_LANG_IT': 'italian',
+    'Duration': 'Duration'
   });
  
   $translateProvider.translations('it', {
@@ -49,7 +50,8 @@ app.config(['$translateProvider', function ($translateProvider) {
     'descriptionText' : 'Orario delle partenze da e per l\'Isola d\'Elba.',
     'Sorry, no result': 'Nessun risultato disponibile, si consiglia di provare a cambiare i filtri di ricerca.',
     'BUTTON_LANG_EN': 'english',
-    'BUTTON_LANG_IT': 'italian'
+    'BUTTON_LANG_IT': 'italian',
+    'Duration': 'Durata'
   });
  
   $translateProvider.preferredLanguage(
@@ -60,6 +62,19 @@ app.config(['$translateProvider', function ($translateProvider) {
 
 app.controller('elbaBridgeCtrl', function($scope, $http, $filter, $translate) {
     
+    moment.locale('it', {
+    relativeTime : {
+        future: "in %s",
+        past:   "%s fa",
+        s:  "secondi",
+        m:  "un minuto",
+        mm: "%d minuti",
+        h:  "un'ora",
+        hh: "%d ore"
+    }
+});
+    
+    moment.locale((window.navigator.userLanguage || window.navigator.language).substring(0, 2));
     $scope.startDate = new Date() 
     $scope.startTime = $scope.startDate.getHours();
     $scope.currentYear = $scope.startDate.getFullYear();
@@ -86,8 +101,22 @@ app.controller('elbaBridgeCtrl', function($scope, $http, $filter, $translate) {
     
     $scope.changeLanguage = function (key) {
           $translate.use(key);
-                       
+          moment.locale(key); 
         };
+      
+    $scope.isNextDay = function (ferryStartTime) {
+        var timeDelta = moment(ferryStartTime).diff($scope.startDate,'days')
+        if(timeDelta > 0){
+            return true;
+        }else{
+            return false;
+        }
+        };    
+    
+    $scope.duration = function (ferryStartTime, ferryEndTime) {
+        return moment(ferryEndTime).from(ferryStartTime)
+        };    
+    
     
 
     $scope.search = function() {

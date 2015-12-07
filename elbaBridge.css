@@ -11,6 +11,8 @@ https://secure.traghettitalia.it/traghetti/images/loghi_compagnie_result/3.gif b
 https://secure.traghettitalia.it/traghetti/images/loghi_compagnie_result/4.gif elba ferries
 */
 
+
+
 .onlyPedestrians{
     background: url("./img/no-cars.jpg") no-repeat;
     background-size : contain;
@@ -101,6 +103,10 @@ div.adBanner{
 
 tr.Toremar{
     background: #F5A9A9;
+}
+
+td.nextDay{
+    font-weight: bold;
 }
 
 

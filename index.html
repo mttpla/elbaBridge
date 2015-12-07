@@ -22,7 +22,8 @@
     window.cookieconsent_options = {"message":"This website uses cookies to ensure you get the best experience on our website","dismiss":"Got it!","learnMore":"More info","link":null,"theme":"dark-top"};
 </script>
 
-<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/1.0.9/cookieconsent.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/cookieconsent2/1.0.9/cookieconsent.min.js"></script>
 <!-- End Cookie Consent plugin -->
 
 <title>Elba Bridge</title>
@@ -150,15 +151,17 @@
                      <th class="main">{{'Departure day' | translate}}</th>
                      <th class="main">{{'Departure time' | translate}}</th>
                      <th class="main">{{'Arrival time' | translate}}</th>
+                     <th class="main">{{'Duration' | translate}}</th>
                      <th ng-show="onlyPedestrians" ng-class="{true: 'main onlyPedestriansColumn', false: 'main'}[onlyPedestrians]"></th>
                      <th class="main">{{'Link' | translate}}</th>
     </tr>
     <tr ng-repeat="ferry in ebData" class="{{ferry.company}} companyColumn main">
      <td class="{{ferry.company}} companyColumn main" ></td>
      <td class="main">{{ ferry.route | addingSpaces }}</td>
-     <td class="main">{{ ferry.startTime | date : 'dd/MM/yyyy' }}</td>
+     <td ng-class="{'true':'main nextDay', false:'main'}[isNextDay(ferry.startTime)]"  >  {{ ferry.startTime | date : 'dd/MM/yyyy' }} </td>
      <td class="main">{{ ferry.startTime | date : 'HH:mm' }}</td>
      <td class="main">{{ ferry.endTime | date : 'HH:mm' }}</td>
+     <td class="main">{{ duration(ferry.startTime, ferry.endTime) }}</td>
      <td ng-show="onlyPedestrians" ng-class="{true: 'main onlyPedestrians', false: 'main'}[ferry.onlyPedestrians]"></td>
      <td class="main"><a target=_blank href="{{companyLinks[ferry.company]}}">Link</a></td>
     </tr>
