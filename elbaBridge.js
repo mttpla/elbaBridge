@@ -27,9 +27,9 @@ app.config(['$translateProvider', function ($translateProvider) {
     'Departure day' : 'Departure day',
     'descriptionText' : 'Ferryboat time schedule to and from Elba Island',
     'Sorry, no result': 'No result available, try to change your filter on the left tab.',
-    'BUTTON_LANG_EN': 'english',
-    'BUTTON_LANG_IT': 'italian',
-    'Duration': 'Duration'
+    'Duration': 'Duration',
+    'Hours' : 'Hours',
+    'Minutes' : 'Minutes'
   });
  
   $translateProvider.translations('it', {
@@ -49,9 +49,53 @@ app.config(['$translateProvider', function ($translateProvider) {
     'Departure day' : 'Giorno',
     'descriptionText' : 'Orario delle partenze da e per l\'Isola d\'Elba.',
     'Sorry, no result': 'Nessun risultato disponibile, si consiglia di provare a cambiare i filtri di ricerca.',
-    'BUTTON_LANG_EN': 'english',
-    'BUTTON_LANG_IT': 'italian',
-    'Duration': 'Durata'
+    'Duration': 'Durata',
+    'Hours' : 'Ore',
+    'Minutes' : 'Minuti'
+  });
+  
+  $translateProvider.translations('de', {
+    'From': 'DE Giorno di partenza',
+    'To': 'A',
+    'Route': 'Tratta',
+    'Search': 'Trova!',
+    'Loading...': 'Ricerca...',
+    'Company': "Compagnia",
+    'Departure time': 'Orario di partenza',
+    'Arrival time': 'Orario di arrivo',
+    'Time': "Orario",
+    'Only pedestrians': 'Solo passeggeri, no auto',
+    'results found': 'risultati trovati',
+    'disclaimer': 'I marchi, loghi, denominazioni di aziende menzionati all’interno di questo sito restano comunque di proprietà dei rispettivi titolari.',
+    'disclaimer2' : 'Inoltre i listini prezzi, orari, date o altro materiale informativo pubblicato su questo sito è suscettibile a variazioni. Siete quindi invitati a chiedere conferma alle strutture interessate.',
+    'Departure day' : 'Giorno',
+    'descriptionText' : 'Orario delle partenze da e per l\'Isola d\'Elba.',
+    'Sorry, no result': 'Nessun risultato disponibile, si consiglia di provare a cambiare i filtri di ricerca.',
+    'Duration': 'Durata',
+    'Hours' : 'Hours',
+    'Minutes' : 'Minutes'
+  });
+  
+  $translateProvider.translations('fr', {
+    'From': 'FR Giorno di partenza',
+    'To': 'FR A',
+    'Route': 'Itinéraire',
+    'Search': 'Chercher!',
+    'Loading...': 'Chargement...',
+    'Company': "Société",
+    'Departure time': 'Orario di partenza',
+    'Arrival time': 'Orario di arrivo',
+    'Time': "Heure",
+    'Only pedestrians': 'Solo passeggeri, no auto',
+    'results found': 'risultati trovati',
+    'disclaimer': 'I marchi, loghi, denominazioni di aziende menzionati all’interno di questo sito restano comunque di proprietà dei rispettivi titolari.',
+    'disclaimer2' : 'Inoltre i listini prezzi, orari, date o altro materiale informativo pubblicato su questo sito è suscettibile a variazioni. Siete quindi invitati a chiedere conferma alle strutture interessate.',
+    'Departure day' : 'Giorno',
+    'descriptionText' : 'Orario delle partenze da e per l\'Isola d\'Elba.',
+    'Sorry, no result': 'Nessun risultato disponibile, si consiglia di provare a cambiare i filtri di ricerca.',
+    'Duration': 'Durata',
+    'Hours' : 'Hours',
+    'Minutes' : 'Minutes'
   });
  
   $translateProvider.preferredLanguage(
@@ -76,7 +120,8 @@ app.controller('elbaBridgeCtrl', function($scope, $http, $filter, $translate) {
     
     moment.locale((window.navigator.userLanguage || window.navigator.language).substring(0, 2));
     $scope.startDate = new Date() 
-    $scope.startTime = $scope.startDate.getHours();
+    $scope.startHours = $scope.startDate.getHours();
+    $scope.startMinutes = $scope.startDate.getMinutes();
     $scope.currentYear = $scope.startDate.getFullYear();
     
     $scope.routes = ['--','Piombino-Portoferraio','Portoferraio-Piombino','Piombino-Rio Marina'
@@ -128,7 +173,7 @@ app.controller('elbaBridgeCtrl', function($scope, $http, $filter, $translate) {
         
         //add one hour at startDate, otherwise give me the running event.
         //ebStartDate = $filter('date')(new Date($scope.startDate.getTime()+60*60*1000), 'yyyyMMddHHmmss')
-        ebStartTime = ("0" + $scope.startTime).slice(-2) + "0000";
+        ebStartTime = ("0" + $scope.startHours).slice(-2) + ("0" + $scope.startMinutes).slice(-2) +"00";
         ebStartDate = $filter('date')($scope.startDate, 'yyyyMMdd')+ ebStartTime
         endDate = new Date($scope.startDate.getTime() + 60 * 60 * 24 * 1000); //one days more
         ebEndDate = $filter('date')(endDate, 'yyyyMMdd') + ebStartTime

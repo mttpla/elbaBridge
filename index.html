@@ -57,11 +57,17 @@
     <md-content >
     
     <md-button class="md-icon-button" ng-click="changeLanguage('en')" aria-label="US" >
-        <img src="img/flag-en.gif" alt="US">
+        <img src="img/flag/gb.gif" alt="UK">
     </md-button>
     <md-button class="md-icon-button" ng-click="changeLanguage('it')" aria-label="IT" >
-        <img src="img/flag-it.gif" alt="IT">
+        <img src="img/flag/it.gif" alt="IT">
     </md-button>
+   <!-- <md-button class="md-icon-button" ng-click="changeLanguage('de')" aria-label="IT" >
+        <img src="img/flag/de.gif" alt="DE">
+    </md-button>
+    <md-button class="md-icon-button" ng-click="changeLanguage('fr')" aria-label="IT" >
+        <img src="img/flag/fr.gif" alt="FR">
+    </md-button> -->
   
    <h1 align=center>Elba Bridge</h1>
    
@@ -79,12 +85,18 @@
       <div flex="10" layout layout-align="center center">
         <span>{{'Time' | translate}} : &nbsp; </span>
       
-            <span ng-bind="startTime"></span> <span>:00</span>
+            <span ng-bind="startHours"></span> <span>:</span><span ng-bind="startMinutes"></span>
         
       </div>
-      <md-slider class="md-primary" flex  md-discrete ng-model="startTime" step="1" min="4" max="24" aria-label="rating">
+      <div><span>{{'Hours' | translate}} : &nbsp; </span>
+      <md-slider class="md-primary" flex  md-discrete ng-model="startHours" step="1" min="4" max="24" aria-label="hours">
+      
       </md-slider>
-           
+      </div>
+      <div><span>{{'Minutes' | translate}} : &nbsp; </span>
+      <md-slider class="md-primary" flex  md-discrete ng-model="startMinutes" step="1" min="0" max="60" aria-label="minutes">
+      </md-slider>
+           </div>
             
         <md-input-container style="margin-right: 50px;" >
         <label>{{'Route' | translate}}</label>
@@ -215,7 +227,7 @@
  
  <div class="footer">Copyright 2015 - {{currentYear}} Matteo Paoli - <a target="_blank" href="http://www.matteopaoli.it">www.matteopaoli.it</a></div>
  <div class="disclaimer">{{'disclaimer' | translate }} </div>
-  <div class="disclaimer">{{'disclaimer2' | translate }} </div>
+  <div class="disclaimer">{{'disclaimer2' | translate }}  - <a target="_blank" href="./privacy_policy.html">Informativa Privacy</a></div>
  
   <div class="debugMessage" ng-bind="debugMessage"></div> 
    

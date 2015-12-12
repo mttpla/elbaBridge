@@ -19,6 +19,7 @@ class index:
         logging.info("Request index page")
         web.header('Content-Type','text/html; charset=utf-8') 
         page = "<h1>ElbaBridgeServer</h1>"
+        page = page + "<div>" + str(web.ctx.env) + "</div>"
         page += "<div>Copyright 2015 Matteo Paoli</div>"
         logging.info("Served index page")
         return page
