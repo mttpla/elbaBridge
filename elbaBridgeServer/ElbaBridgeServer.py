@@ -6,7 +6,6 @@ import sys,logging,logging.config,time,os,web
 from datetime import datetime
 
 import Utils, Constants, EventList
-from ElbaBridgeEvent import ElbaBridgeEvent
 
 
 urls = (
@@ -27,6 +26,8 @@ class index:
 class elbaBridge:
     def GET(self):
         logging.info("Request elbaBridge page")
+        #logging.info("variables: " + str(web.ctx.env))
+        #logging.info("variables REF: " + str(web.ctx.env.get('HTTP_REFERER', 'http://google.com')))
         web.header('Content-Type','application/json; charset=utf-8') 
         
         page = ""
