@@ -52,10 +52,12 @@ class Event():
 
 	def __init__(self,calId,summary,startTime,endTime, description = None, location = None):
 	    self.calId = calId
+	    self.identifier = str(startTime+summary).lower() #ID Key to define duplicate event
 	    self.summary = summary
 	    self.description = description
 	    self.startTime = startTime[:-6]
 	    self.endTime = endTime[:-6]
+	    self.identifier = str(startTime[:-6]+summary).lower() #ID Key to define duplicate event
 	    self.location = location
 	    #"dateTime": "2015-05-30T14:00:00+02:00"
 	    self.unixtime = time.mktime(datetime.strptime(self.startTime,"%Y-%m-%dT%H:%M:%S").timetuple())
@@ -63,7 +65,8 @@ class Event():
 	    if(len(summary.split(" ")) > 1):
 	        summarySplitted = summary.split(" ")
 	        self.company = summarySplitted[0]
-	        if(summarySplitted[-1].lower() == "hydrofoil" or summarySplitted[-1].lower() == "aliscafo"):
+	        if(summarySplitted[-1].lower() == "hydrofoil" 
+	           or summarySplitted[-1].lower() == "aliscafo"):
 	            self.onlyPedestrians = True 
 	            self.route = " ".join(summarySplitted[1:-1])
 	        else:  

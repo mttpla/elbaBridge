@@ -36,6 +36,10 @@ class elbaBridge:
         
         if(request['result'] == 'OK'):
             #user request is ok. Run!
+            logging.debug("Request date: " + str(request['startDate']))
+            #date requested ggmmyyyy
+            d = request['startDate']
+            EventList.updateEvent(d[6:8]+d[4:6]+d[0:4])
             eventList = []
             eventList.extend(EventList.events)
             #All in UTC
@@ -79,6 +83,7 @@ if __name__ == "__main__":
     logging.config.fileConfig(os.path.dirname(os.path.realpath(__file__)) + '/ElbaBridgeServer.cfg')
     logging.info("Start ElbaBridgeServer!")
     EventList.populate()
+    
     logging.info("EventList populated, event numbers: " + str(len(EventList.events)))
     
     app = web.application(urls, globals())

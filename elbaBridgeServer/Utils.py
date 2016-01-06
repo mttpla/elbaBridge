@@ -1,9 +1,24 @@
 # Copyright (c) 2015 Matteo Paoli
 
 #Utils methods
-import json, time, string
+import json, time, string, subprocess, logging
 from datetime import datetime
 import Constants
+
+def getRequestDay(params):
+    currentDate = onlyascii(params.get("startDate", None))
+    #currentDate is 20160304[:-6] - YYYYMMDD
+    year = currentDate[0:4]
+    month = currentDate[4:6]
+    day = currentDate[6:8]
+    return day+month+year
+    
+
+def runCommand(command, workingDir = "/tmp"):
+	logging.debug("Launching %s"%command)
+	process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd= workingDir)
+	process.wait()
+	return {'returncode': process.returncode, 'stdout': process.stdout.read(), 'sterr': process.stderr.read()}
 
 def onlyascii(text):
     if(text!=None):

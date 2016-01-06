@@ -7,6 +7,7 @@ from Event import Event
 
 
 events = []
+requestedDate = []
 
 
 def createEvent(myItem):
@@ -30,10 +31,43 @@ def buildUrl(min = None, max = None, eventID = None):
 	if(max != None):
 	    google_url += "&timeMax="+max
 	return google_url
+
+
+def updateEvent(eventDate):
+    #serach event using reqPost.js external software
+    #check if event is in eventList, needed to add a unique field: es: summary+statdate
+    #http://stackoverflow.com/questions/9371114/check-if-list-of-objects-contain-an-object-with-a-certain-attribute-value
+    logging.debug("Date requested: " + str(eventDate))
+    if not eventDate in requestedDate:
+        destinations = ['FP', 'PF']
+        for dest in destinations:
+            command = "node MobyToremarSchedule.js " + str(eventDate) + " " + str(dest) 
+            result = Utils.runCommand(command , "./nodejs")
+            #logging.debug(result)
+            if result['returncode'] == 0 :
+                #logging.debug(result['stdout'])
+                newEvents = json.loads(result['stdout'][:-1])
+                #logging.debug(newEvents)
+                global events
+                for newEvent in newEvents:
+                    #logging.debug("Event: " + str(event))
+                    newEventID = str(newEvent['start']['dateTime'][:-6]+newEvent['summary']).lower()
+                    if any(ev.identifier.lower() == newEventID.lower() for ev in events) :
+                        logging.debug("Event duplicated: " + str(newEventID))
+                    else:
+                        logging.debug("Event added: " + str(newEventID))
+                        events.append(createEvent(newEvent))
+            else:
+                logging.error("Node reqPost.js command got a error! Command:  " +str(command) + " -- " + str(result['sterr']))
+        requestedDate.append(eventDate)
+        events = sorted(events, key= lambda ElbaBridgeEvent: ElbaBridgeEvent.unixtime)
+    else:
+        logging.debug("No updated required, event in cache.")
+	
 	
 def populate():
-    min = "2015-05-05T12%3A00%3A00%2B02%3A00"
-    max = "2019-05-05T12%3A00%3A00%2B02%3A00"
+    min = "2016-01-07T12%3A00%3A00%2B02%3A00"
+    max = "2016-12-31T12%3A00%3A00%2B02%3A00"
     global events
     data = json.load(urllib2.urlopen(buildUrl(min,max)))
     logging.debug("Creating Event")

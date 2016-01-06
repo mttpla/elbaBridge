@@ -30,6 +30,9 @@ div.debugMessage{
     font-size: xx-small;
 }
 
+div.flags{
+    text-align: right;
+}
 
 div.companyLink {
     display : inline;
