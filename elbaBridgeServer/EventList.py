@@ -41,7 +41,7 @@ def updateEvent(eventDate):
     if not eventDate in requestedDate:
         destinations = ['FP', 'PF']
         for dest in destinations:
-            command = "node MobyToremarSchedule.js " + str(eventDate) + " " + str(dest) 
+            command = "nodejs MobyToremarSchedule.js " + str(eventDate) + " " + str(dest) 
             result = Utils.runCommand(command , "./nodejs")
             #logging.debug(result)
             if result['returncode'] == 0 :
