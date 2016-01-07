@@ -1,7 +1,8 @@
 # Copyright (c) 2015 Matteo Paoli
 # -*- coding: utf-8 -*-
 
-import logging, json, urllib2
+import logging, json, urllib2, time
+from datetime import date, timedelta as td
 import Utils, Constants, Key
 from Event import Event
 
@@ -32,6 +33,13 @@ def buildUrl(min = None, max = None, eventID = None):
 	    google_url += "&timeMax="+max
 	return google_url
 
+def importEventRange(startdate, enddate):
+
+    delta = enddate - startdate
+
+    for i in range(delta.days + 1):
+        updateEvent((startdate + td(days=i)).strftime("%d%m%Y"))
+        #time.sleep(1)
 
 def updateEvent(eventDate):
     #serach event using reqPost.js external software
@@ -53,12 +61,13 @@ def updateEvent(eventDate):
                     #logging.debug("Event: " + str(event))
                     newEventID = str(newEvent['start']['dateTime'][:-6]+newEvent['summary']).lower()
                     if any(ev.identifier.lower() == newEventID.lower() for ev in events) :
-                        logging.debug("Event duplicated: " + str(newEventID))
+                        #logging.debug("Event duplicated: " + str(newEventID))
+                        pass
                     else:
-                        logging.debug("Event added: " + str(newEventID))
+                        #logging.debug("Event added: " + str(newEventID))
                         events.append(createEvent(newEvent))
             else:
-                logging.error("Node reqPost.js command got a error! Command:  " +str(command) + " -- " + str(result['sterr']))
+                logging.error("Nodejs command got a error! Command:  " +str(command) + " -- " + str(result['sterr']))
         requestedDate.append(eventDate)
         events = sorted(events, key= lambda ElbaBridgeEvent: ElbaBridgeEvent.unixtime)
     else:

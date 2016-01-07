@@ -3,7 +3,7 @@
 # -*- coding: utf-8 -*-
 
 import sys,logging,logging.config,time,os,web
-from datetime import datetime
+from datetime import datetime, date
 
 import Utils, Constants, EventList
 
@@ -39,7 +39,7 @@ class elbaBridge:
             logging.debug("Request date: " + str(request['startDate']))
             #date requested ggmmyyyy
             d = request['startDate']
-            EventList.updateEvent(d[6:8]+d[4:6]+d[0:4])
+            EventList.updateEvent(Utils.getRequestDay(web.input()))
             eventList = []
             eventList.extend(EventList.events)
             #All in UTC
@@ -83,11 +83,13 @@ if __name__ == "__main__":
     logging.config.fileConfig(os.path.dirname(os.path.realpath(__file__)) + '/ElbaBridgeServer.cfg')
     logging.info("Start ElbaBridgeServer!")
     EventList.populate()
+    EventList.importEventRange(date(2016, 7, 1), date(2016, 8, 31))
     
     logging.info("EventList populated, event numbers: " + str(len(EventList.events)))
     
     app = web.application(urls, globals())
     app.run()
+    
 
 
     
