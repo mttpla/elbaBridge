@@ -47,7 +47,7 @@
   </head>
   
   
-  <body ng-app="elbaBridge" ng-controller="elbaBridgeCtrl">
+  <body itemscope itemtype="http://schema.org/WebPage" ng-app="elbaBridge" ng-controller="elbaBridgeCtrl">
   
     
 
@@ -135,26 +135,28 @@
  <div class="rightColumn">
  
  <div class="flags">
-    <md-button class="md-icon-button" ng-click="changeLanguage('en')" aria-label="US" >
+    <md-button rel="alternate" hreflang="en" class="md-icon-button" ng-click="changeLanguage('en')" aria-label="US" >
         <img src="img/flag/gb.gif" alt="UK">
     </md-button>
    
-    <md-button class="md-icon-button" ng-click="changeLanguage('it')" aria-label="IT" >
+    <md-button rel="alternate" hreflang="it" class="md-icon-button" ng-click="changeLanguage('it')" aria-label="IT" >
         <img src="img/flag/it.gif" alt="IT">
     </md-button>
    
-   <!-- <md-button class="md-icon-button" ng-click="changeLanguage('de')" aria-label="DE" >
+   <md-button rel="alternate" hreflang="de" class="md-icon-button" ng-click="changeLanguage('de')" aria-label="DE" >
         <img src="img/flag/de.gif" alt="DE">
     </md-button>
    
-    <md-button class="md-icon-button" ng-click="changeLanguage('fr')" aria-label="FR" >
+   
+    <md-button rel="alternate" hreflang="fr" class="md-icon-button" ng-click="changeLanguage('fr')" aria-label="FR" >
         <img src="img/flag/fr.gif" alt="FR">
     </md-button>
+   
     
-    <md-button class="md-icon-button" ng-click="changeLanguage('es')" aria-label="ES" >
+    <md-button rel="alternate" hreflang="es" class="md-icon-button" ng-click="changeLanguage('es')" aria-label="ES" >
         <img src="img/flag/es.gif" alt="ES">
     </md-button>
-    -->
+    
     </div>
  
  <div class="adBanner">
@@ -186,12 +188,12 @@
                      <th ng-show="onlyPedestrians" ng-class="{true: 'main onlyPedestriansColumn', false: 'main'}[onlyPedestrians]"></th>
                      <th class="main">{{'Link' | translate}}</th>
     </tr>
-    <tr ng-repeat="ferry in ebData" class="{{ferry.company}} companyColumn main">
+    <tr itemscope itemtype="http://schema.org/Event" ng-repeat="ferry in ebData" class="{{ferry.company}} companyColumn main" >
      <td class="{{ferry.company}} companyColumn main" ></td>
-     <td class="main">{{ ferry.route | addingSpaces }}</td>
+     <td itemscope itemtype="http://schema.org/TravelAction" class="main">{{ ferry.route | addingSpaces }}</td>
      <td ng-class="{'true':'main nextDay', false:'main'}[isNextDay(ferry.startTime)]"  >  {{ ferry.startTime | date : 'dd/MM/yyyy' }} </td>
-     <td class="main">{{ ferry.startTime | date : 'HH:mm' }}</td>
-     <td class="main">{{ ferry.endTime | date : 'HH:mm' }}</td>
+     <td itemprop="startDate" class="main">{{ ferry.startTime | date : 'HH:mm' }}</td>
+     <td itemprop="endDate" class="main">{{ ferry.endTime | date : 'HH:mm' }}</td>
      <td class="main">{{ duration(ferry.startTime, ferry.endTime) }}</td>
      <td ng-show="onlyPedestrians" ng-class="{true: 'main onlyPedestrians', false: 'main'}[ferry.onlyPedestrians]"></td>
      <td class="main"><a target=_blank href="{{companyLinks[ferry.company]}}">Link</a></td>

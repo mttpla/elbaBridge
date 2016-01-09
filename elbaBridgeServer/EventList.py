@@ -1,7 +1,7 @@
 # Copyright (c) 2015 Matteo Paoli
 # -*- coding: utf-8 -*-
 
-import logging, json, urllib2, time
+import logging, json, urllib2, time, urllib
 from datetime import date, timedelta as td
 import Utils, Constants, Key
 from Event import Event
@@ -9,6 +9,7 @@ from Event import Event
 
 events = []
 requestedDate = []
+
 
 
 def createEvent(myItem):
@@ -72,7 +73,12 @@ def updateEvent(eventDate):
         events = sorted(events, key= lambda ElbaBridgeEvent: ElbaBridgeEvent.unixtime)
     else:
         logging.debug("No updated required, event in cache.")
-	
+
+def pushToCalender(event):
+    #TODO, add the ability to push new events form toremar.it to googleCalendar
+    logging.debug("push to google calendar")
+    
+    
 	
 def populate():
     min = "2016-01-07T12%3A00%3A00%2B02%3A00"

@@ -2,6 +2,10 @@
 # Copyright 2015 Matteo Paoli - mttpla@gmail.com
 # -*- coding: utf-8 -*-
 
+## installation
+# apt-get python, nodejs, python-googleapi
+# remenber to add manually the key.py file.
+
 import sys,logging,logging.config,time,os,web
 from datetime import datetime, date
 
@@ -83,7 +87,7 @@ if __name__ == "__main__":
     logging.config.fileConfig(os.path.dirname(os.path.realpath(__file__)) + '/ElbaBridgeServer.cfg')
     logging.info("Start ElbaBridgeServer!")
     EventList.populate()
-    EventList.importEventRange(date(2016, 7, 1), date(2016, 8, 31))
+    #EventList.importEventRange(date(2016, 7, 1), date(2016, 8, 31))
     
     logging.info("EventList populated, event numbers: " + str(len(EventList.events)))
     

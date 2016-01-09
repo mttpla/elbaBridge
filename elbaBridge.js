@@ -23,7 +23,7 @@ app.config(['$translateProvider', function ($translateProvider) {
     'Only pedestrians': 'Only Pedestrians, no car',
     'results found': 'results found',
     'disclaimer' : 'All trademarks or logos show in this web site are of their owner.',
-    'disclaimer2' : "The infos, time schedules and prices can change without any notice. Please, check on the offical web site.",
+    'disclaimer2' : "The infos, time schedules and prices can change without any notice. Please, check on the official web site.",
     'Departure day' : 'Departure day',
     'descriptionText' : 'Ferryboat time schedule to and from Elba Island',
     'Sorry, no result': 'No result available, try to change your filter on the left tab.',
@@ -55,70 +55,72 @@ app.config(['$translateProvider', function ($translateProvider) {
   });
   
   $translateProvider.translations('de', {
-    'From': 'DE Giorno di partenza',
-    'To': 'A',
-    'Route': 'Tratta',
-    'Search': 'Trova!',
-    'Loading...': 'Ricerca...',
-    'Company': "Compagnia",
-    'Departure time': 'Orario di partenza',
-    'Arrival time': 'Orario di arrivo',
-    'Time': "Orario",
-    'Only pedestrians': 'Solo passeggeri, no auto',
-    'results found': 'risultati trovati',
+    'From': 'Abfahrtstag',
+    'To': 'Nach',
+    'Route': 'Route',
+    'Search': 'Suche',
+    'Loading...': 'Bitte warten...',
+    'Company': 'Schifffahrtsunternehmen',
+    'Departure time': 'Abfahrt',
+    'Arrival time': 'Ankunft',
+    'Time': "Zeit",
+    'Only pedestrians': 'Nur Passagiere, kein Auto',
+    'results found': 'suchergebnisse',
+    'Departure day' : 'Datum',
+    'descriptionText' : 'Fahrplan Insel Elba.',
+    'Sorry, no result': 'Kein Ergebnis gefunden: ändern Sie bitte Suchkriterien.',
+    'Duration': 'Fahrzeit',
+    'Hours' : 'Stunde',
+    'Minutes' : 'Minute',
     'disclaimer' : 'All trademarks or logos show in this web site are of their owner.',
-    'disclaimer2' : "The infos, time schedules and prices can change without any notice. Please, check on the offical web site.",
-    'Departure day' : 'Giorno',
-    'descriptionText' : 'Orario delle partenze da e per l\'Isola d\'Elba.',
-    'Sorry, no result': 'Nessun risultato disponibile, si consiglia di provare a cambiare i filtri di ricerca.',
-    'Duration': 'Durata',
-    'Hours' : 'Hours',
-    'Minutes' : 'Minutes'
+    'disclaimer2' : "The infos, time schedules and prices can change without any notice. Please, check on the official web site.",
+   
   });
   
   $translateProvider.translations('fr', {
-    'From': 'FR Giorno di partenza',
-    'To': 'FR A',
+    'From': 'Jour de départ',
+    'To': 'Une',
     'Route': 'Itinéraire',
     'Search': 'Chercher!',
     'Loading...': 'Chargement...',
     'Company': "Société",
-    'Departure time': 'Orario di partenza',
-    'Arrival time': 'Orario di arrivo',
+    'Departure time': 'Heure de départ',
+    'Arrival time': 'Heure d\'arrivée',
     'Time': "Heure",
     'Only pedestrians': 'Passagers,	no véhicul',
-    'results found': 'risultati trovati',
+    'results found': 'résultats trouvés',
     'disclaimer' : 'All trademarks or logos show in this web site are of their owner.',
-    'disclaimer2' : "The infos, time schedules and prices can change without any notice. Please, check on the offical web site.",
-    'Departure day' : 'Giorno',
-    'descriptionText' : 'Orario delle partenze da e per l\'Isola d\'Elba.',
-    'Sorry, no result': 'Nessun risultato disponibile, si consiglia di provare a cambiare i filtri di ricerca.',
+    'disclaimer2' : "The infos, time schedules and prices can change without any notice. Please, check on the official web site.",
+    'Departure day' : 'Jour',
+    'descriptionText' : 'Les heures de départ de et vers l\'Ile d\'Elbe',
+    'Sorry, no result': 'Il n\'y a pas de résultats , vous pouvez essayer de changer le filtre de recherche.',
     'Duration': 'Durée',
     'Hours' : 'Hours',
     'Minutes' : 'Minutes'
   });
   
   $translateProvider.translations('es', {
-    'From': 'FR Giorno di partenza',
-    'To': 'FR A',
-    'Route': 'Itinéraire',
-    'Search': 'Chercher!',
-    'Loading...': 'Chargement...',
-    'Company': "Société",
-    'Departure time': 'Orario di partenza',
-    'Arrival time': 'Orario di arrivo',
-    'Time': "Heure",
-    'Only pedestrians': 'Solo passeggeri, no auto',
-    'results found': 'risultati trovati',
+    'From': 'Día de salida',
+    'To': 'la',
+    'Route': 'Ruta',
+    'Search': 'Buscar!',
+    'Loading...': 'Cargando...',
+    'Company': "Compañía",
+    'Departure time': 'Hora de salid',
+    'Arrival time': 'Hora de llegada',
+    'Time': "Tiempo",
+    'Only pedestrians': 'Sólo los pasajeros , sin coche',
+    'results found': 'resultados',
     'disclaimer' : 'All trademarks or logos show in this web site are of their owner.',
-    'disclaimer2' : "The infos, time schedules and prices can change without any notice. Please, check on the offical web site.",
-    'Departure day' : 'Giorno',
-    'descriptionText' : 'Orario delle partenze da e per l\'Isola d\'Elba.',
-    'Sorry, no result': 'Nessun risultato disponibile, si consiglia di provare a cambiare i filtri di ricerca.',
-    'Duration': 'Durata',
-    'Hours' : 'Hours',
-    'Minutes' : 'Minutes'
+    'disclaimer2' : "The infos, time schedules and prices can change without any notice. Please, check on the official web site.",
+    'Departure day' : 'Día',
+    'descriptionText' : 'Tiempos partir hacia y desde el Isla de Elba',
+    'Sorry, no result': 'No hay resultados , se puede tratar de cambiar el filtro de búsqueda.',
+    'Duration': 'Duración',
+    'Hours' : 'horas',
+    'Minutes' : 'minutos'
   });
+ 
  
   $translateProvider.preferredLanguage(
       (window.navigator.userLanguage || window.navigator.language).substring(0, 2));
@@ -137,8 +139,21 @@ app.controller('elbaBridgeCtrl', function($scope, $http, $filter, $translate) {
         mm: "%d minuti",
         h:  "un'ora",
         hh: "%d ore"
-    }
-});
+        }
+    });
+    
+    moment.locale('fr',{
+       relativeTime : {
+        future : "dans %s",
+        past : "il y a %s",
+        s : "quelques secondes",
+        m : "une minute",
+        mm : "%d minutes",
+        h : "une heure",
+        hh : "%d heures"
+    } 
+    });
+    
     
     moment.locale((window.navigator.userLanguage || window.navigator.language).substring(0, 2));
     $scope.startDate = new Date() 
