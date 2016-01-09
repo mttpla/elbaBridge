@@ -49,7 +49,7 @@ def checkDate(params, dateString ,outputDict):
         try:
             datetime.strptime(currentDate, Constants.URL_DATETIME_PATTERN)
         except ValueError:
-            outputDict['result'] = "Error: " + dateString + ' is not a valid date. Pattern required: ' + Constants.DATETIME_PATTERN
+            outputDict['result'] = "Error: " + dateString + ' is not a valid date. Pattern required: ' + Constants.URL_DATETIME_PATTERN
     else:
         outputDict['result'] = "Error: " + dateString + ' missing'
         
