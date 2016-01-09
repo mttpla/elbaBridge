@@ -35,9 +35,7 @@ def buildUrl(min = None, max = None, eventID = None):
 	return google_url
 
 def importEventRange(startdate, enddate):
-
     delta = enddate - startdate
-
     for i in range(delta.days + 1):
         updateEvent((startdate + td(days=i)).strftime("%d%m%Y"))
         #time.sleep(1)

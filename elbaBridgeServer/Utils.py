@@ -2,7 +2,7 @@
 
 #Utils methods
 import json, time, string, subprocess, logging
-from datetime import datetime
+from datetime import datetime, date
 import Constants
 
 def getRequestDay(params):
@@ -12,6 +12,14 @@ def getRequestDay(params):
     month = currentDate[4:6]
     day = currentDate[6:8]
     return day+month+year
+
+def getRequestDateDay(params):
+    currentDate = onlyascii(params.get("startDate", None))
+    #currentDate is 20160304[:-6] - YYYYMMDD
+    year = currentDate[0:4]
+    month = currentDate[4:6]
+    day = currentDate[6:8]
+    return date(int(year),int(month),int(day))
     
 
 def runCommand(command, workingDir = "/tmp"):

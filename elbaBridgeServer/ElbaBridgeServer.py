@@ -7,7 +7,7 @@
 # remenber to add manually the key.py file.
 
 import sys,logging,logging.config,time,os,web
-from datetime import datetime, date
+from datetime import datetime, date, timedelta
 
 import Utils, Constants, EventList
 
@@ -41,9 +41,9 @@ class elbaBridge:
         if(request['result'] == 'OK'):
             #user request is ok. Run!
             logging.debug("Request date: " + str(request['startDate']))
-            #date requested ggmmyyyy
-            d = request['startDate']
-            EventList.updateEvent(Utils.getRequestDay(web.input()))
+            #EventList.updateEvent(Utils.getRequestDay(web.input()))
+            requestedDate = Utils.getRequestDateDay(web.input())
+            EventList.importEventRange(requestedDate, requestedDate + timedelta(days=3))
             eventList = []
             eventList.extend(EventList.events)
             #All in UTC
@@ -87,7 +87,10 @@ if __name__ == "__main__":
     logging.config.fileConfig(os.path.dirname(os.path.realpath(__file__)) + '/ElbaBridgeServer.cfg')
     logging.info("Start ElbaBridgeServer!")
     EventList.populate()
-    #EventList.importEventRange(date(2016, 7, 1), date(2016, 8, 31))
+    #import 20 day buy now
+    EventList.importEventRange(date.today(), date.today() + timedelta(days=20))
+    #import the "summer"
+    EventList.importEventRange(date(2016, 7, 1), date(2016, 8, 31))
     
     logging.info("EventList populated, event numbers: " + str(len(EventList.events)))
     
