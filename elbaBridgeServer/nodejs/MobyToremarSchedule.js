@@ -30,29 +30,33 @@ if (Math.random() > 0.5){
     serverUrl = 'http://www.toremar.it/mds/dwr/call/plaincall/DispoDwr.getCorse'
 }
 
-//console.log(serverUrl)
+serverUrl = 'http://www.moby.it/mds/dwr/call/plaincall/DispoDwr.getCorseAndataIdLink.dwr'
+
+console.log(serverUrl)
 
 request({url: serverUrl,
     qs: {'callCount':1, 
-			'page':'/mds/web/toremar/wdisponibilita.xpd',
+			'page':'/mds/web/wdisponibilita.xpd',
 			'httpSessionId':null,
 			'scriptSessionId':null,
 			'c0-scriptName':'DispoDwr',
 			'c0-methodName':'getCorseAndata',
 			'c0-id':0,
 			'c0-param0':'it',
-			'c0-param1': direction_param,
-			'c0-param2': date_param,
-			'c0-param3':'dispo',
-			'c0-param4':'TOREMAR',
-			'batchId':2},
+			'c0-param1':null,
+			'c0-param2': direction_param,
+			'c0-param3': date_param,
+			'c0-param4':'dispo',
+			'c0-param5':'MOBY',
+			'c0-param6':'Y',
+			'batchId':5},
     method: 'POST',
 }, function (error, response, body) {
     if (!error && response.statusCode == 200) {
-        //console.log(body); // Show the HTML for the Modulus homepage.
+        console.log(body); // Show the HTML for the Modulus homepage.
         //remove first 3 lines and remove the last one.
         var lines = body.split('\n').slice(3,-2).join('\n');  
-        
+        console.log("Lines --"+lines+"--")
         eval(lines);
         
         //console.log(JSON.stringify(s0));

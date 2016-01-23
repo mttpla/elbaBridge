@@ -1,16 +1,14 @@
 # Copyright (c) 2015 Matteo Paoli
 # -*- coding: utf-8 -*-
 
-import logging, json, urllib2, time, urllib
+import logging, json, urllib2, time, urllib, hashlib
 from datetime import date, timedelta as td
+from TraghettiLinesHtmlParser import TraghettiLinesHtmlParser
 import Utils, Constants, Key
 from Event import Event
 
-
 events = []
 requestedDate = []
-
-
 
 def createEvent(myItem):
     event = Event(myItem["id"],myItem["summary"],myItem["start"]["dateTime"],myItem["end"]["dateTime"])
@@ -37,43 +35,86 @@ def buildUrl(min = None, max = None, eventID = None):
 def importEventRange(startdate, enddate):
     delta = enddate - startdate
     for i in range(delta.days + 1):
-        updateEvent((startdate + td(days=i)).strftime("%d%m%Y"))
+        updateEvent((startdate + td(days=i)))
         #time.sleep(1)
 
-def updateEvent(eventDate):
-    #serach event using reqPost.js external software
-    #check if event is in eventList, needed to add a unique field: es: summary+statdate
-    #http://stackoverflow.com/questions/9371114/check-if-list-of-objects-contain-an-object-with-a-certain-attribute-value
-    logging.debug("Date requested: " + str(eventDate))
-    if not eventDate in requestedDate:
-        destinations = ['FP', 'PF']
-        for dest in destinations:
-            command = "nodejs MobyToremarSchedule.js " + str(eventDate) + " " + str(dest) 
-            result = Utils.runCommand(command , "./nodejs")
-            #logging.debug(result)
-            if result['returncode'] == 0 :
-                #logging.debug(result['stdout'])
-                newEvents = json.loads(result['stdout'][:-1])
-                #logging.debug(newEvents)
-                global events
-                for newEvent in newEvents:
-                    #logging.debug("Event: " + str(event))
-                    newEventID = str(newEvent['start']['dateTime'][:-6]+newEvent['summary']).lower()
-                    if any(ev.identifier.lower() == newEventID.lower() for ev in events) :
-                        #logging.debug("Event duplicated: " + str(newEventID))
-                        pass
-                    else:
-                        #logging.debug("Event added: " + str(newEventID))
-                        events.append(createEvent(newEvent))
+def updateEventOnMobyToremar(eventDate):
+    destinations = ['FP', 'PF']
+    for dest in destinations:
+        #search event using reqPost.js external software
+        command = "nodejs MobyToremarSchedule.js " + str(eventDate) + " " + str(dest) 
+        result = Utils.runCommand(command , "./nodejs")
+        #logging.debug(result)
+        if result['returncode'] == 0 :
+            #logging.debug(result['stdout'])
+            newEvents = json.loads(result['stdout'][:-1])
+            #logging.debug(newEvents)
+            global events
+            
+            #check if event is in eventList, needed to add a unique field: es: summary+statdate
+            #http://stackoverflow.com/questions/9371114/check-if-list-of-objects-contain-an-object-with-a-certain-attribute-value
+    
+            for newEvent in newEvents:
+                #logging.debug("Event: " + str(event))
+                newEventID = str(newEvent['start']['dateTime'][:-6]+newEvent['summary']).lower()
+                if any(ev.identifier.lower() == newEventID.lower() for ev in events) :
+                    #logging.debug("Event duplicated: " + str(newEventID))
+                    pass
+                else:
+                    #logging.debug("Event added: " + str(newEventID))
+                    events.append(createEvent(newEvent))
+            requestedDate.append(eventDate)
+            events = sorted(events, key= lambda ElbaBridgeEvent: ElbaBridgeEvent.unixtime)
+        else:
+            logging.error("Nodejs command got a error! Command:  " +str(command) + " -- " + str(result['sterr']))
+
+def updateEventOnTraghettiLines(eventDate):
+    #http://www.traghettilines.it/results.aspx?Pdestinazione=3&Pdata=22/08/2016
+    html = ""
+    try:
+        html = urllib2.urlopen("http://www.traghettilines.it/results.aspx?Pdestinazione=3&Pdata="+eventDate.strftime("%d/%m/%Y")).read()
+    except:
+        logging.error("failed to get data from traghettilines")
+    if(len(html) > 100):
+        htmlParser = TraghettiLinesHtmlParser()
+        htmlParser.feed(html)
+        global events
+        for eventLine in htmlParser.getResults():
+            #logging.debug(eventLine)
+            newEvent = {}
+            newEvent['id'] = "traghettilines"+hashlib.md5(str(eventLine)).hexdigest()
+            newEvent['summary'] = eventLine['company'] + " " + eventLine['route']
+            if('onlyPedestrian' in eventLine):
+                newEvent['summary'] = newEvent['summary'] + " aliscafo"
+             #"dateTime": "2015-05-30T14:00:00+02:00"
+            day = eventDate.strftime("%Y-%m-%d")
+            eventLineTimeSplitted = eventLine['time'].split("-")
+            newEvent['start'] = {}
+            newEvent['end'] = {}
+            newEvent["start"]["dateTime"] = day +"T"+eventLineTimeSplitted[0].replace(".",":")+":00+02:00"
+            newEvent["end"]["dateTime"] = day +"T"+eventLineTimeSplitted[1].replace(".",":")+":00+02:00"
+            #logging.debug("time: " +str(eventLine['time']) + " --> " + str(newEvent["start"]["dateTime"]))
+            newEventID = str(newEvent['start']['dateTime'][:-6]+newEvent['summary']).lower()
+            if any(ev.identifier.lower() == newEventID.lower() for ev in events) :
+                #logging.debug("Event duplicated: " + str(newEventID))
+                pass
             else:
-                logging.error("Nodejs command got a error! Command:  " +str(command) + " -- " + str(result['sterr']))
+                logging.debug("Event added: " + str(newEventID))
+                events.append(createEvent(newEvent))
         requestedDate.append(eventDate)
         events = sorted(events, key= lambda ElbaBridgeEvent: ElbaBridgeEvent.unixtime)
+    
+
+def updateEvent(eventDate):
+    logging.debug("Date requested: " + str(eventDate.strftime("%d/%m/%Y")))
+    if not eventDate in requestedDate:
+        # updateEventOnMobyToremar(eventDate.strftime("%d%m%Y")) to check and test
+        updateEventOnTraghettiLines(eventDate)
     else:
         logging.debug("No updated required, event in cache.")
 
 def pushToCalender(event):
-    #TODO, add the ability to push new events form toremar.it to googleCalendar
+    #TODO, add the ability to push new events to googleCalendar
     logging.debug("push to google calendar")
     
     

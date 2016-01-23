@@ -89,6 +89,7 @@ if __name__ == "__main__":
     EventList.populate()
     #import 20 day buy now
     EventList.importEventRange(date.today(), date.today() + timedelta(days=20))
+    #EventList.importEventRange(date.today(), date.today() + timedelta(days=1))
     #import the "summer"
     EventList.importEventRange(date(2016, 7, 1), date(2016, 8, 31))
     
