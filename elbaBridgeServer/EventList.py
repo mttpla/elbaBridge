@@ -73,37 +73,37 @@ def updateEventOnTraghettiLines(eventDate):
     html = ""
     try:
         html = urllib2.urlopen("http://www.traghettilines.it/results.aspx?Pdestinazione=3&Pdata="+eventDate.strftime("%d/%m/%Y")).read()
+    
+        if(len(html) > 100):
+            htmlParser = TraghettiLinesHtmlParser()
+            htmlParser.feed(html)
+            global events
+            for eventLine in htmlParser.getResults():
+                #logging.debug(eventLine)
+                newEvent = {}
+                newEvent['id'] = "traghettilines"+hashlib.md5(str(eventLine)).hexdigest()
+                newEvent['summary'] = eventLine['company'] + " " + eventLine['route']
+                if('onlyPedestrian' in eventLine):
+                    newEvent['summary'] = newEvent['summary'] + " aliscafo"
+                #"dateTime": "2015-05-30T14:00:00+02:00"
+                day = eventDate.strftime("%Y-%m-%d")
+                eventLineTimeSplitted = eventLine['time'].split("-")
+                newEvent['start'] = {}
+                newEvent['end'] = {}
+                newEvent["start"]["dateTime"] = day +"T"+eventLineTimeSplitted[0].replace(".",":")+":00+02:00"
+                newEvent["end"]["dateTime"] = day +"T"+eventLineTimeSplitted[1].replace(".",":")+":00+02:00"
+                #logging.debug("time: " +str(eventLine['time']) + " --> " + str(newEvent["start"]["dateTime"]))
+                newEventID = str(newEvent['start']['dateTime'][:-6]+newEvent['summary']).lower()
+                if any(ev.identifier.lower() == newEventID.lower() for ev in events) :
+                    #logging.debug("Event duplicated: " + str(newEventID))
+                    pass
+                else:
+                    logging.debug("Event added: " + str(newEventID))
+                    events.append(createEvent(newEvent))
+            requestedDate.append(eventDate)
+            events = sorted(events, key= lambda ElbaBridgeEvent: ElbaBridgeEvent.unixtime)
     except:
         logging.error("failed to get data from traghettilines")
-    if(len(html) > 100):
-        htmlParser = TraghettiLinesHtmlParser()
-        htmlParser.feed(html)
-        global events
-        for eventLine in htmlParser.getResults():
-            #logging.debug(eventLine)
-            newEvent = {}
-            newEvent['id'] = "traghettilines"+hashlib.md5(str(eventLine)).hexdigest()
-            newEvent['summary'] = eventLine['company'] + " " + eventLine['route']
-            if('onlyPedestrian' in eventLine):
-                newEvent['summary'] = newEvent['summary'] + " aliscafo"
-             #"dateTime": "2015-05-30T14:00:00+02:00"
-            day = eventDate.strftime("%Y-%m-%d")
-            eventLineTimeSplitted = eventLine['time'].split("-")
-            newEvent['start'] = {}
-            newEvent['end'] = {}
-            newEvent["start"]["dateTime"] = day +"T"+eventLineTimeSplitted[0].replace(".",":")+":00+02:00"
-            newEvent["end"]["dateTime"] = day +"T"+eventLineTimeSplitted[1].replace(".",":")+":00+02:00"
-            #logging.debug("time: " +str(eventLine['time']) + " --> " + str(newEvent["start"]["dateTime"]))
-            newEventID = str(newEvent['start']['dateTime'][:-6]+newEvent['summary']).lower()
-            if any(ev.identifier.lower() == newEventID.lower() for ev in events) :
-                #logging.debug("Event duplicated: " + str(newEventID))
-                pass
-            else:
-                logging.debug("Event added: " + str(newEventID))
-                events.append(createEvent(newEvent))
-        requestedDate.append(eventDate)
-        events = sorted(events, key= lambda ElbaBridgeEvent: ElbaBridgeEvent.unixtime)
-    
 
 def updateEvent(eventDate):
     logging.debug("Date requested: " + str(eventDate.strftime("%d/%m/%Y")))
