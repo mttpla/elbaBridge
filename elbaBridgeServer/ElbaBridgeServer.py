@@ -87,11 +87,11 @@ if __name__ == "__main__":
     logging.config.fileConfig(os.path.dirname(os.path.realpath(__file__)) + '/ElbaBridgeServer.cfg')
     logging.info("Start ElbaBridgeServer!")
     EventList.populate()
-    #import 20 day buy now
-    EventList.importEventRange(date.today(), date.today() + timedelta(days=20))
+    #import 20 day by now
+    #EventList.importEventRange(date.today(), date.today() + timedelta(days=20))
     #EventList.importEventRange(date.today(), date.today() + timedelta(days=1))
     #import the "summer"
-    EventList.importEventRange(date(2016, 7, 1), date(2016, 8, 31))
+    #EventList.importEventRange(date(2016, 7, 1), date(2016, 8, 31))
     
     logging.info("EventList populated, event numbers: " + str(len(EventList.events)))
     
