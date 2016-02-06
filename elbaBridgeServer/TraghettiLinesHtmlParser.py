@@ -57,6 +57,7 @@ class TraghettiLinesHtmlParser(HTMLParser):
             
     def handle_data(self, data):
         if(len(self.param) != 0):
-            self.line[self.param] = data.strip(' \t\n\r').replace(" ", "")
+            #keep Cavo - Rio Marina to Cavo-Rio Marina
+            self.line[self.param] = data.strip(' \t\n\r').replace(" - ", "-")
     
     
